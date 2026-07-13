@@ -1,0 +1,285 @@
+// UI chrome translations only. Book/author/category catalog content is never
+// translated here — it stays in its original source language (see src/data).
+export const translations = {
+  // Header / Nav
+  navShop: { en: 'Shop', mr: 'खरेदी' },
+  navBestsellers: { en: 'Bestsellers', mr: 'बेस्टसेलर' },
+  navNewArrivals: { en: 'New Arrivals', mr: 'नवीन आगमन' },
+  navDeals: { en: 'Deals', mr: 'सवलती' },
+  navCategories: { en: 'Categories', mr: 'श्रेणी' },
+  brandName: { en: 'Cosmos Edge', mr: 'कॉसमॉस एज' },
+  booksSuffix: { en: 'books', mr: 'पुस्तके' },
+
+  // Search
+  searchPlaceholder: { en: 'Search for books, authors, ISBN...', mr: 'पुस्तके, लेखक, ISBN शोधा...' },
+  noResultsFor: { en: 'No results for', mr: 'यासाठी कोणतेही निकाल नाहीत' },
+
+  // Cart drawer
+  yourCart: { en: 'Your Cart', mr: 'तुमची कार्ट' },
+  cartEmpty: { en: 'Your cart is empty.', mr: 'तुमची कार्ट रिकामी आहे.' },
+  continueShopping: { en: 'Continue Shopping', mr: 'खरेदी सुरू ठेवा' },
+  subtotal: { en: 'Subtotal', mr: 'उपबेरीज' },
+  checkout: { en: 'Checkout', mr: 'चेकआउट' },
+
+  // Buttons / common actions
+  addToCart: { en: 'Add to Cart', mr: 'कार्टमध्ये टाका' },
+  addBundleToCart: { en: 'Add Bundle to Cart', mr: 'बंडल कार्टमध्ये टाका' },
+  addToWishlist: { en: 'Add to Wishlist', mr: 'विशलिस्टमध्ये टाका' },
+  inWishlist: { en: 'In Wishlist', mr: 'विशलिस्टमध्ये आहे' },
+  viewAll: { en: 'View All', mr: 'सर्व पाहा' },
+  browseBooks: { en: 'Browse Books', mr: 'पुस्तके पाहा' },
+  browseShop: { en: 'Browse Shop', mr: 'दुकान पाहा' },
+  quickView: { en: 'Quick view', mr: 'द्रुत दृश्य' },
+  toggleWishlist: { en: 'Toggle wishlist', mr: 'विशलिस्ट टॉगल करा' },
+  viewFullDetails: { en: 'View Full Details', mr: 'संपूर्ण तपशील पाहा' },
+  by: { en: 'by', mr: 'लेखक' },
+  new: { en: 'New', mr: 'नवीन' },
+  outOfStock: { en: 'Out of Stock', mr: 'स्टॉक संपला' },
+  inStock: { en: 'In Stock', mr: 'स्टॉकमध्ये' },
+  left: { en: 'left', mr: 'शिल्लक' },
+
+  // Home hero
+  heroTagline: { en: 'New Era Publishing House Collection', mr: 'न्यू ईरा पब्लिशिंग हाऊस संग्रह' },
+  heroTitleLine1: { en: 'Stories worth', mr: 'गोष्टी ज्या' },
+  heroTitleLine2: { en: 'losing yourself in.', mr: 'हरवून जाण्यासारख्या आहेत.' },
+  heroSubtitle: {
+    en: 'Hand-curated bestsellers, rare finds, and timeless classics — delivered beautifully to your door.',
+    mr: 'निवडक बेस्टसेलर, दुर्मिळ पुस्तके आणि अजरामर साहित्य — सुंदररीत्या तुमच्या दारापर्यंत.',
+  },
+  shopCollection: { en: 'Shop Collection', mr: 'संग्रह पाहा' },
+  exploreBestsellers: { en: 'Explore Bestsellers', mr: 'बेस्टसेलर पाहा' },
+  statTitles: { en: 'Titles', mr: 'पुस्तके' },
+  statAuthors: { en: 'Authors', mr: 'लेखक' },
+  statLanguages: { en: 'Languages', mr: 'भाषा' },
+
+  // Brand partners
+  trustedBy: { en: 'Trusted by leading publishers worldwide', mr: 'आघाडीच्या प्रकाशकांचा विश्वास' },
+
+  // Category grid
+  categoryEyebrow: { en: 'Browse', mr: 'ब्राउझ करा' },
+  categoryTitle: { en: 'Featured Categories', mr: 'वैशिष्ट्यीकृत श्रेणी' },
+  categorySubtitle: { en: 'Find your next favorite genre.', mr: 'तुमचा पुढचा आवडता प्रकार शोधा.' },
+
+  // Featured authors
+  authorsEyebrow: { en: 'Meet the Voices', mr: 'लेखकांना भेटा' },
+  authorsTitle: { en: 'Featured Authors', mr: 'वैशिष्ट्यीकृत लेखक' },
+  authorsSubtitle: { en: 'The storytellers behind your favorite books.', mr: 'तुमच्या आवडत्या पुस्तकांमागील लेखक.' },
+
+  // Flash sale
+  flashSaleTitle: { en: 'Flash Sale', mr: 'फ्लॅश सेल' },
+  flashSaleSubtitle: { en: "Limited-time deals — grab them before they're gone.", mr: 'मर्यादित काळासाठी सवलती — लवकर खरेदी करा.' },
+  viewAllDeals: { en: 'View All Deals', mr: 'सर्व सवलती पाहा' },
+
+  // Newsletter
+  newsletterTitle: { en: 'Get 15% Off Your First Order', mr: 'तुमच्या पहिल्या ऑर्डरवर 15% सूट मिळवा' },
+  newsletterSubtitle: {
+    en: 'Join our newsletter for exclusive deals, new arrivals, and reading recommendations.',
+    mr: 'विशेष सवलती, नवीन आगमन आणि वाचन शिफारशींसाठी आमच्या न्यूजलेटरमध्ये सामील व्हा.',
+  },
+  newsletterThanks: { en: 'Thanks for subscribing!', mr: 'सदस्यता घेतल्याबद्दल धन्यवाद!' },
+  emailPlaceholder: { en: 'Enter your email', mr: 'तुमचा ईमेल टाका' },
+  subscribe: { en: 'Subscribe', mr: 'सदस्यता घ्या' },
+
+  // Editor's picks / spotlight
+  editorPicksEyebrow: { en: "Editor's Picks", mr: 'संपादकांची निवड' },
+  editorPicksTitle: { en: "Books Our Editors Can't Stop Talking About", mr: 'संपादकांच्या आवडत्या पुस्तकांची निवड' },
+  editorPicksSubtitle: { en: 'Straight from the catalog blurbs.', mr: 'संग्रहातील वर्णनांमधून थेट.' },
+  spotlightEyebrow: { en: 'Spotlight', mr: 'ठळक' },
+  spotlightTitle: { en: 'From the Catalog', mr: 'संग्रहामधून' },
+
+  // Why choose us
+  whyShippingTitle: { en: 'Free Fast Shipping', mr: 'मोफत जलद शिपिंग' },
+  whyShippingDesc: { en: 'Free delivery on orders over ₹500, arriving in 2-3 days.', mr: '₹500 पेक्षा जास्त ऑर्डरवर मोफत डिलिव्हरी, 2-3 दिवसांत.' },
+  whyPaymentsTitle: { en: 'Secure Payments', mr: 'सुरक्षित पेमेंट' },
+  whyPaymentsDesc: { en: 'Bank-level encryption on every transaction, every time.', mr: 'प्रत्येक व्यवहारावर बँक-स्तरीय एन्क्रिप्शन.' },
+  whyReturnsTitle: { en: 'Easy 30-Day Returns', mr: 'सोपे 30-दिवस परतावा' },
+  whyReturnsDesc: { en: "Not the right fit? Return it hassle-free within 30 days.", mr: 'आवडले नाही? 30 दिवसांत सहज परत करा.' },
+  whySupportTitle: { en: '24/7 Support', mr: '24/7 सहाय्य' },
+  whySupportDesc: { en: 'Our book experts are here around the clock to help.', mr: 'आमचे तज्ज्ञ चोवीस तास मदतीसाठी उपलब्ध आहेत.' },
+
+  // Home rail sections
+  bestsellersEyebrow: { en: 'Handpicked', mr: 'निवडक' },
+  bestsellersTitle: { en: 'Bestsellers', mr: 'बेस्टसेलर' },
+  bestsellersSubtitle: { en: "The titles everyone's talking about right now.", mr: 'सध्या सर्वत्र चर्चेत असलेली पुस्तके.' },
+  trendingEyebrow: { en: 'Rising Fast', mr: 'वेगाने वाढणारे' },
+  trendingTitle: { en: 'Trending This Week', mr: 'या आठवड्यातील ट्रेंडिंग' },
+  trendingSubtitle: { en: "What readers are adding to their carts.", mr: 'वाचक सध्या काय खरेदी करत आहेत.' },
+  newArrivalsEyebrow: { en: 'Just In', mr: 'नवीन आलेले' },
+  newArrivalsTitle: { en: 'New Arrivals', mr: 'नवीन आगमन' },
+  newArrivalsSubtitle: { en: 'Fresh off the press.', mr: 'नुकतीच प्रकाशित झालेली.' },
+
+  // Footer
+  footerShop: { en: 'Shop', mr: 'खरेदी' },
+  footerCompany: { en: 'Company', mr: 'कंपनी' },
+  footerSupport: { en: 'Support', mr: 'सहाय्य' },
+  footerAbout: { en: 'About Us', mr: 'आमच्याबद्दल' },
+  footerCareers: { en: 'Careers', mr: 'करिअर' },
+  footerPress: { en: 'Press', mr: 'प्रेस' },
+  footerSustainability: { en: 'Sustainability', mr: 'शाश्वतता' },
+  footerAffiliates: { en: 'Affiliates', mr: 'सहयोगी' },
+  footerHelpCenter: { en: 'Help Center', mr: 'मदत केंद्र' },
+  footerShippingInfo: { en: 'Shipping Info', mr: 'शिपिंग माहिती' },
+  footerReturns: { en: 'Returns', mr: 'परतावा' },
+  footerTrackOrder: { en: 'Track Order', mr: 'ऑर्डर ट्रॅक करा' },
+  footerContact: { en: 'Contact Us', mr: 'संपर्क करा' },
+  footerGiftCards: { en: 'Gift Cards', mr: 'गिफ्ट कार्ड' },
+  footerCollections: { en: 'Collections', mr: 'संग्रह' },
+  footerTagline: {
+    en: "A premium bookstore bringing New Era Publishing House's Marathi, Hindi and English titles to your door.",
+    mr: 'न्यू ईरा पब्लिशिंग हाऊसची मराठी, हिंदी आणि इंग्रजी पुस्तके तुमच्या दारापर्यंत आणणारे प्रीमियम पुस्तक दुकान.',
+  },
+  footerRights: { en: 'All rights reserved.', mr: 'सर्व हक्क राखीव.' },
+  footerPrivacy: { en: 'Privacy Policy', mr: 'गोपनीयता धोरण' },
+  footerTerms: { en: 'Terms of Service', mr: 'सेवा अटी' },
+  footerCookie: { en: 'Cookie Policy', mr: 'कुकी धोरण' },
+
+  // Book Details
+  breadcrumbHome: { en: 'Home', mr: 'मुख्यपृष्ठ' },
+  breadcrumbShop: { en: 'Shop', mr: 'खरेदी' },
+  bestsellerBadge: { en: 'Bestseller', mr: 'बेस्टसेलर' },
+  save: { en: 'Save', mr: 'बचत' },
+  tabDescription: { en: 'Description', mr: 'वर्णन' },
+  tabSpecs: { en: 'Specifications', mr: 'तपशील' },
+  specFormat: { en: 'Format', mr: 'स्वरूप' },
+  specLanguage: { en: 'Language', mr: 'भाषा' },
+  specPublisher: { en: 'Publisher', mr: 'प्रकाशक' },
+  specPages: { en: 'Pages', mr: 'पाने' },
+  specPublished: { en: 'Published', mr: 'प्रकाशित वर्ष' },
+  specISBN: { en: 'ISBN', mr: 'ISBN' },
+  quantity: { en: 'Quantity', mr: 'प्रमाण' },
+  freeShippingOver: { en: 'Free shipping over ₹500', mr: '₹500 वर मोफत शिपिंग' },
+  easyReturns: { en: '30-day easy returns', mr: '30-दिवस सोपा परतावा' },
+  secureCheckout: { en: 'Secure checkout', mr: 'सुरक्षित चेकआउट' },
+  frequentlyBought: { en: 'Frequently Bought Together', mr: 'सहसा एकत्र खरेदी केलेली' },
+  bundleTotal: { en: 'Bundle Total', mr: 'बंडल एकूण' },
+  relatedBooks: { en: 'Related Books', mr: 'संबंधित पुस्तके' },
+  recommendedForYou: { en: 'Recommended For You', mr: 'तुमच्यासाठी शिफारस केलेली' },
+  recentlyViewed: { en: 'Recently Viewed', mr: 'अलीकडे पाहिलेली' },
+  bookNotFound: { en: 'Book Not Found', mr: 'पुस्तक सापडले नाही' },
+
+  // Cart page
+  invalidCoupon: { en: 'Invalid or expired code', mr: 'अवैध किंवा कालबाह्य कोड' },
+  cartEmptyTitle: { en: 'Your cart is empty', mr: 'तुमची कार्ट रिकामी आहे' },
+  cartEmptySubtitle: { en: "Looks like you haven't added anything yet.", mr: 'तुम्ही अजून काही खरेदी केलेले दिसत नाही.' },
+  startShopping: { en: 'Start Shopping', mr: 'खरेदी सुरू करा' },
+  shoppingCart: { en: 'Shopping Cart', mr: 'शॉपिंग कार्ट' },
+  couponPlaceholder: { en: 'Coupon code (try FOLIO15)', mr: 'कूपन कोड (FOLIO15 वापरून पहा)' },
+  apply: { en: 'Apply', mr: 'लागू करा' },
+  couponApplied: { en: 'applied — 15% off!', mr: 'लागू झाले — 15% सूट!' },
+  orderSummary: { en: 'Order Summary', mr: 'ऑर्डर सारांश' },
+  discount: { en: 'Discount', mr: 'सवलत' },
+  shipping: { en: 'Shipping', mr: 'शिपिंग' },
+  free: { en: 'Free', mr: 'मोफत' },
+  total: { en: 'Total', mr: 'एकूण' },
+  proceedToCheckout: { en: 'Proceed to Checkout', mr: 'चेकआउटकडे जा' },
+
+  // Checkout
+  checkoutTitle: { en: 'Checkout', mr: 'चेकआउट' },
+  stepAddress: { en: 'Address', mr: 'पत्ता' },
+  stepPayment: { en: 'Payment', mr: 'पेमेंट' },
+  stepReview: { en: 'Review', mr: 'पुनरावलोकन' },
+  chooseAddress: { en: 'Choose Delivery Address', mr: 'डिलिव्हरी पत्ता निवडा' },
+  addNewAddress: { en: '+ Add New Address', mr: '+ नवीन पत्ता जोडा' },
+  continueToPayment: { en: 'Continue to Payment', mr: 'पेमेंटकडे जा' },
+  paymentMethod: { en: 'Payment Method', mr: 'पेमेंट पद्धत' },
+  razorpayOption: { en: 'Razorpay (Cards, UPI, Wallets)', mr: 'Razorpay (कार्ड, UPI, वॉलेट)' },
+  recommended: { en: 'Recommended', mr: 'शिफारस केलेले' },
+  cardOption: { en: 'Credit / Debit Card', mr: 'क्रेडिट / डेबिट कार्ड' },
+  upiOption: { en: 'UPI', mr: 'UPI' },
+  codOption: { en: 'Cash on Delivery', mr: 'कॅश ऑन डिलिव्हरी' },
+  cardNumberPlaceholder: { en: 'Card Number', mr: 'कार्ड क्रमांक' },
+  cardNamePlaceholder: { en: 'Name on Card', mr: 'कार्डवरील नाव' },
+  back: { en: 'Back', mr: 'मागे' },
+  reviewOrder: { en: 'Review Order', mr: 'ऑर्डर पुनरावलोकन' },
+  reviewYourOrder: { en: 'Review Your Order', mr: 'तुमच्या ऑर्डरचे पुनरावलोकन करा' },
+  deliveringTo: { en: 'Delivering To', mr: 'डिलिव्हरी पत्ता' },
+  items: { en: 'Items', mr: 'वस्तू' },
+  processingPayment: { en: 'Processing Payment...', mr: 'पेमेंट प्रक्रिया सुरू आहे...' },
+  placeOrder: { en: 'Place Order', mr: 'ऑर्डर द्या' },
+  securePaymentNote: { en: 'Your payment is encrypted and secure.', mr: 'तुमचे पेमेंट एन्क्रिप्टेड आणि सुरक्षित आहे.' },
+
+  // Order confirmation
+  orderPlacedTitle: { en: 'Order Placed Successfully!', mr: 'ऑर्डर यशस्वीरित्या दिली!' },
+  orderPlacedSubtitle: {
+    en: 'Thank you for shopping with Cosmos Edge. A confirmation email is on its way.',
+    mr: 'Cosmos Edge वर खरेदी केल्याबद्दल धन्यवाद. पुष्टीकरण ईमेल लवकरच येईल.',
+  },
+  orderId: { en: 'Order ID', mr: 'ऑर्डर आयडी' },
+  paymentId: { en: 'Payment ID', mr: 'पेमेंट आयडी' },
+  amountPaid: { en: 'Amount Paid', mr: 'भरलेली रक्कम' },
+  trackOrder: { en: 'Track Order', mr: 'ऑर्डर ट्रॅक करा' },
+
+  // Shop
+  shopEyebrow: { en: 'Shop', mr: 'खरेदी' },
+  allBooks: { en: 'All Books', mr: 'सर्व पुस्तके' },
+  booksFound: { en: 'books found', mr: 'पुस्तके सापडली' },
+  filters: { en: 'Filters', mr: 'फिल्टर्स' },
+  sortFeatured: { en: 'Featured', mr: 'वैशिष्ट्यीकृत' },
+  sortPriceLowHigh: { en: 'Price: Low to High', mr: 'किंमत: कमी ते जास्त' },
+  sortPriceHighLow: { en: 'Price: High to Low', mr: 'किंमत: जास्त ते कमी' },
+  sortNewest: { en: 'Newest', mr: 'नवीनतम' },
+  noBooksMatch: { en: 'No books match your filters', mr: 'तुमच्या फिल्टर्सशी जुळणारी पुस्तके नाहीत' },
+  tryAdjusting: { en: 'Try adjusting or clearing your filters.', mr: 'तुमचे फिल्टर्स बदला किंवा साफ करा.' },
+
+  // Filter sidebar
+  clear: { en: 'Clear', mr: 'साफ करा' },
+  priceRange: { en: 'Price Range', mr: 'किंमत श्रेणी' },
+  upTo: { en: 'Up to', mr: 'पर्यंत' },
+  category: { en: 'Category', mr: 'श्रेणी' },
+  author: { en: 'Author', mr: 'लेखक' },
+  format: { en: 'Format', mr: 'स्वरूप' },
+  language: { en: 'Language', mr: 'भाषा' },
+  publisher: { en: 'Publisher', mr: 'प्रकाशक' },
+  availability: { en: 'Availability', mr: 'उपलब्धता' },
+  inStockOnly: { en: 'In Stock Only', mr: 'फक्त स्टॉकमध्ये असलेली' },
+
+  // Account
+  accountOverview: { en: 'Overview', mr: 'आढावा' },
+  accountOrders: { en: 'Orders', mr: 'ऑर्डर' },
+  accountWishlist: { en: 'Wishlist', mr: 'विशलिस्ट' },
+  accountWallet: { en: 'Wallet', mr: 'वॉलेट' },
+  accountRewards: { en: 'Reward Points', mr: 'रिवॉर्ड पॉइंट्स' },
+  accountInvoices: { en: 'Invoices', mr: 'इनव्हॉइस' },
+  accountReviews: { en: 'My Reviews', mr: 'माझी पुनरावलोकने' },
+  accountNotifications: { en: 'Notifications', mr: 'सूचना' },
+  welcomeBack: { en: 'Welcome back', mr: 'पुन्हा स्वागत आहे' },
+  signOut: { en: 'Sign Out', mr: 'साइन आउट' },
+  totalOrders: { en: 'Total Orders', mr: 'एकूण ऑर्डर' },
+  wishlistItems: { en: 'Wishlist Items', mr: 'विशलिस्ट वस्तू' },
+  walletBalance: { en: 'Wallet Balance', mr: 'वॉलेट शिल्लक' },
+  rewardPoints: { en: 'Reward Points', mr: 'रिवॉर्ड पॉइंट्स' },
+  recentOrders: { en: 'Recent Orders', mr: 'अलीकडील ऑर्डर' },
+  myOrders: { en: 'My Orders', mr: 'माझ्या ऑर्डर' },
+  deliveringToLabel: { en: 'Delivering to:', mr: 'येथे डिलिव्हरी:' },
+  qty: { en: 'Qty', mr: 'प्रमाण' },
+  myWishlist: { en: 'My Wishlist', mr: 'माझी विशलिस्ट' },
+  wishlistEmptyTitle: { en: 'Your wishlist is empty', mr: 'तुमची विशलिस्ट रिकामी आहे' },
+  wishlistEmptySubtitle: { en: 'Save books you love to find them here later.', mr: 'आवडलेली पुस्तके येथे नंतर सापडण्यासाठी जतन करा.' },
+  cosmosWalletBalance: { en: 'Cosmos Edge Wallet Balance', mr: 'Cosmos Edge वॉलेट शिल्लक' },
+  transactionHistory: { en: 'Transaction History', mr: 'व्यवहार इतिहास' },
+  redeemableCredit: { en: 'in redeemable credit', mr: 'रिडीम करण्यायोग्य क्रेडिट' },
+  goldTier: { en: 'Gold Tier', mr: 'गोल्ड टियर' },
+  pointsHistory: { en: 'Points History', mr: 'पॉइंट्स इतिहास' },
+  invoices: { en: 'Invoices', mr: 'इनव्हॉइस' },
+  invoiceCol: { en: 'Invoice', mr: 'इनव्हॉइस' },
+  orderCol: { en: 'Order', mr: 'ऑर्डर' },
+  dateCol: { en: 'Date', mr: 'तारीख' },
+  amountCol: { en: 'Amount', mr: 'रक्कम' },
+  download: { en: 'Download', mr: 'डाउनलोड' },
+  myReviews: { en: 'My Reviews', mr: 'माझी पुनरावलोकने' },
+  noReviewsYet: { en: "You haven't written any reviews yet", mr: 'तुम्ही अजून कोणतेही पुनरावलोकन लिहिलेले नाही' },
+  reviewWillShow: { en: "Once you review a book, it'll show up here.", mr: 'तुम्ही पुस्तकाचे पुनरावलोकन केल्यावर ते येथे दिसेल.' },
+  notifications: { en: 'Notifications', mr: 'सूचना' },
+  markAllRead: { en: 'Mark all as read', mr: 'सर्व वाचले म्हणून चिन्हांकित करा' },
+
+  // Coming soon
+  comingSoonMessage: {
+    en: 'This page is being crafted with the same care as the rest of Cosmos Edge. Check back soon.',
+    mr: 'हे पान Cosmos Edge च्या इतर भागांप्रमाणेच काळजीपूर्वक तयार केले जात आहे. लवकरच परत तपासा.',
+  },
+
+  // Language toggle
+  languageToggle: { en: 'मराठी', mr: 'English' },
+} as const
+
+export type TranslationKey = keyof typeof translations

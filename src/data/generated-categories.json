@@ -1,0 +1,65 @@
+[
+  {
+    "id": "cat-novel",
+    "name": "Novels",
+    "slug": "novels",
+    "bookCount": 20,
+    "description": "कादंबरी — 20 पुस्तके"
+  },
+  {
+    "id": "cat-business",
+    "name": "Business",
+    "slug": "business",
+    "bookCount": 6,
+    "description": "व्यवसाय — 6 पुस्तके"
+  },
+  {
+    "id": "cat-biography",
+    "name": "Biography",
+    "slug": "biography",
+    "bookCount": 12,
+    "description": "चरित्र — 12 पुस्तके"
+  },
+  {
+    "id": "cat-general",
+    "name": "General",
+    "slug": "general",
+    "bookCount": 46,
+    "description": "सामान्य पुस्तके — 46 पुस्तके"
+  },
+  {
+    "id": "cat-history",
+    "name": "History",
+    "slug": "history",
+    "bookCount": 34,
+    "description": "इतिहास — 34 पुस्तके"
+  },
+  {
+    "id": "cat-poetry",
+    "name": "Poetry",
+    "slug": "poetry",
+    "bookCount": 13,
+    "description": "कविता — 13 पुस्तके"
+  },
+  {
+    "id": "cat-selfhelp",
+    "name": "Self-Help",
+    "slug": "self-help",
+    "bookCount": 15,
+    "description": "स्वयं-विकास — 15 पुस्तके"
+  },
+  {
+    "id": "cat-spiritual",
+    "name": "Spiritual",
+    "slug": "spiritual",
+    "bookCount": 4,
+    "description": "अध्यात्म — 4 पुस्तके"
+  },
+  {
+    "id": "cat-shortstories",
+    "name": "Short Stories",
+    "slug": "short-stories",
+    "bookCount": 5,
+    "description": "कथासंग्रह — 5 पुस्तके"
+  }
+]
