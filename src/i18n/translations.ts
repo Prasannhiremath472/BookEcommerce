@@ -39,7 +39,6 @@ export const translations = {
   left: { en: 'left', mr: 'शिल्लक' },
 
   // Home hero
-  heroTagline: { en: 'New Era Publishing House Collection', mr: 'न्यू ईरा पब्लिशिंग हाऊस संग्रह' },
   heroTitleLine1: { en: 'Stories worth', mr: 'गोष्टी ज्या' },
   heroTitleLine2: { en: 'losing yourself in.', mr: 'हरवून जाण्यासारख्या आहेत.' },
   heroSubtitle: {
