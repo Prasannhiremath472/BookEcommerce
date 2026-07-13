@@ -2,26 +2,29 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { User, Package, Heart, Wallet, Gift, FileText, Star, Bell, LogOut } from 'lucide-react'
 import clsx from 'clsx'
-
-const navItems = [
-  { to: '/account', label: 'Overview', icon: User, end: true },
-  { to: '/account/orders', label: 'Orders', icon: Package },
-  { to: '/account/wishlist', label: 'Wishlist', icon: Heart },
-  { to: '/account/wallet', label: 'Wallet', icon: Wallet },
-  { to: '/account/rewards', label: 'Reward Points', icon: Gift },
-  { to: '/account/invoices', label: 'Invoices', icon: FileText },
-  { to: '/account/reviews', label: 'My Reviews', icon: Star },
-  { to: '/account/notifications', label: 'Notifications', icon: Bell },
-]
+import { useLanguage } from '@/context/LanguageContext'
 
 export function AccountLayout() {
+  const { t } = useLanguage()
+
+  const navItems = [
+    { to: '/account', label: t('accountOverview'), icon: User, end: true },
+    { to: '/account/orders', label: t('accountOrders'), icon: Package },
+    { to: '/account/wishlist', label: t('accountWishlist'), icon: Heart },
+    { to: '/account/wallet', label: t('accountWallet'), icon: Wallet },
+    { to: '/account/rewards', label: t('accountRewards'), icon: Gift },
+    { to: '/account/invoices', label: t('accountInvoices'), icon: FileText },
+    { to: '/account/reviews', label: t('accountReviews'), icon: Star },
+    { to: '/account/notifications', label: t('accountNotifications'), icon: Bell },
+  ]
+
   return (
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10 flex items-center gap-4">
           <img src="https://i.pravatar.cc/150?img=13" alt="" className="h-16 w-16 rounded-full object-cover ring-4 ring-primary-50" />
           <div>
-            <h1 className="font-heading text-2xl font-bold text-ink">Welcome back, Prasann</h1>
+            <h1 className="font-heading text-2xl font-bold text-ink">{t('welcomeBack')}, Prasann</h1>
             <p className="text-sm text-ink-muted">prasannhiremath333@gmail.com</p>
           </div>
         </motion.div>
@@ -46,7 +49,7 @@ export function AccountLayout() {
                 </NavLink>
               ))}
               <button className="mt-2 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-danger transition-colors hover:bg-danger/5">
-                <LogOut size={17} /> Sign Out
+                <LogOut size={17} /> {t('signOut')}
               </button>
             </nav>
           </aside>

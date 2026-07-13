@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion'
 import { Truck, ShieldCheck, RotateCcw, Headphones } from 'lucide-react'
-
-const perks = [
-  { icon: Truck, title: 'Free Fast Shipping', desc: 'Free delivery on orders over ₹500, arriving in 2-3 days.' },
-  { icon: ShieldCheck, title: 'Secure Payments', desc: 'Bank-level encryption on every transaction, every time.' },
-  { icon: RotateCcw, title: 'Easy 30-Day Returns', desc: 'Not the right fit? Return it hassle-free within 30 days.' },
-  { icon: Headphones, title: '24/7 Support', desc: 'Our book experts are here around the clock to help.' },
-]
+import { useLanguage } from '@/context/LanguageContext'
 
 export function WhyChooseUs() {
+  const { t } = useLanguage()
+  const perks = [
+    { icon: Truck, title: t('whyShippingTitle'), desc: t('whyShippingDesc') },
+    { icon: ShieldCheck, title: t('whyPaymentsTitle'), desc: t('whyPaymentsDesc') },
+    { icon: RotateCcw, title: t('whyReturnsTitle'), desc: t('whyReturnsDesc') },
+    { icon: Headphones, title: t('whySupportTitle'), desc: t('whySupportDesc') },
+  ]
   return (
     <section className="container-app py-16 sm:py-20">
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

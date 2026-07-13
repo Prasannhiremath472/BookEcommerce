@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function Newsletter() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
+  const { t } = useLanguage()
 
   return (
     <section className="container-app py-16 sm:py-20">
@@ -23,8 +25,8 @@ export function Newsletter() {
           <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-white">
             <Mail size={24} />
           </div>
-          <h2 className="font-heading text-3xl font-bold text-white">Get 15% Off Your First Order</h2>
-          <p className="mt-3 text-white/75">Join our newsletter for exclusive deals, new arrivals, and reading recommendations.</p>
+          <h2 className="font-heading text-3xl font-bold text-white">{t('newsletterTitle')}</h2>
+          <p className="mt-3 text-white/75">{t('newsletterSubtitle')}</p>
 
           {submitted ? (
             <motion.div
@@ -32,7 +34,7 @@ export function Newsletter() {
               animate={{ opacity: 1, scale: 1 }}
               className="mt-8 flex items-center justify-center gap-2 text-white"
             >
-              <CheckCircle2 size={20} /> Thanks for subscribing!
+              <CheckCircle2 size={20} /> {t('newsletterThanks')}
             </motion.div>
           ) : (
             <form
@@ -47,11 +49,11 @@ export function Newsletter() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder={t('emailPlaceholder')}
                 className="flex-1 rounded-full bg-white/95 px-5 py-3.5 text-sm text-ink outline-none placeholder:text-ink-muted"
               />
               <Button type="submit" variant="dark" className="bg-white text-primary hover:bg-white/90">
-                Subscribe
+                {t('subscribe')}
               </Button>
             </form>
           )}

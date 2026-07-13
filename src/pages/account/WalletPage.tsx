@@ -2,8 +2,10 @@ import { motion } from 'framer-motion'
 import { ArrowUpRight, ArrowDownRight, Wallet } from 'lucide-react'
 import { walletBalance, walletTransactions } from '@/data/account'
 import { formatPrice } from '@/lib/utils'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function WalletPage() {
+  const { t } = useLanguage()
   return (
     <div>
       <motion.div
@@ -16,12 +18,12 @@ export function WalletPage() {
           <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15">
             <Wallet size={20} />
           </div>
-          <span className="text-sm text-white/80">Cosmos Edge Wallet Balance</span>
+          <span className="text-sm text-white/80">{t('cosmosWalletBalance')}</span>
         </div>
         <p className="mt-4 font-heading text-4xl font-bold">{formatPrice(walletBalance)}</p>
       </motion.div>
 
-      <h2 className="mb-4 font-heading text-lg font-bold text-ink">Transaction History</h2>
+      <h2 className="mb-4 font-heading text-lg font-bold text-ink">{t('transactionHistory')}</h2>
       <div className="flex flex-col divide-y divide-ink/8 rounded-2xl border border-ink/8 bg-white">
         {walletTransactions.map((t) => (
           <div key={t.id} className="flex items-center gap-4 p-5">

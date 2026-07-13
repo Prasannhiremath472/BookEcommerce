@@ -2,14 +2,16 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { books } from '@/data/books'
 import { SectionHeading } from './SectionHeading'
+import { useLanguage } from '@/context/LanguageContext'
 
 const spotlight = books.filter((b) => b.isBestseller).slice(0, 3)
 
 export function BlogSection() {
+  const { t } = useLanguage()
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="container-app">
-        <SectionHeading eyebrow="Spotlight" title="From the Catalog" cta="Browse Shop" ctaTo="/shop" />
+        <SectionHeading eyebrow={t('spotlightEyebrow')} title={t('spotlightTitle')} cta={t('browseShop')} ctaTo="/shop" />
         <div className="grid gap-8 md:grid-cols-3">
           {spotlight.map((book, i) => (
             <motion.article
@@ -39,7 +41,7 @@ export function BlogSection() {
                 <span>·</span>
                 <span>{book.language}</span>
                 <span>·</span>
-                <span>{book.pages} pages</span>
+                <span>{book.pages} {t('specPages').toLowerCase()}</span>
               </div>
             </motion.article>
           ))}

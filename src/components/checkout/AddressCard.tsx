@@ -1,8 +1,10 @@
 import clsx from 'clsx'
 import { MapPin, Home, Briefcase } from 'lucide-react'
 import type { Address } from '@/data/types'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function AddressCard({ address, selected, onSelect }: { address: Address; selected: boolean; onSelect: () => void }) {
+  const { t } = useLanguage()
   const Icon = address.label === 'Home' ? Home : address.label === 'Office' ? Briefcase : MapPin
 
   return (
@@ -19,7 +21,7 @@ export function AddressCard({ address, selected, onSelect }: { address: Address;
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <p className="font-heading text-sm font-semibold text-ink">{address.label}</p>
-          {address.isDefault && <span className="rounded-full bg-primary-100 px-2 py-0.5 text-[10px] font-semibold text-primary">Default</span>}
+          {address.isDefault && <span className="rounded-full bg-primary-100 px-2 py-0.5 text-[10px] font-semibold text-primary">{t('defaultBadge')}</span>}
         </div>
         <p className="mt-1 text-sm text-ink-soft">{address.name}</p>
         <p className="text-sm text-ink-muted">{address.line1}, {address.city}, {address.state} {address.zip}</p>

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { getDeals } from '@/data/books'
 import { BookCard } from '@/components/book/BookCard'
 import { Button } from '@/components/ui/Button'
+import { useLanguage } from '@/context/LanguageContext'
 
 function useCountdown(hours: number) {
   const [remaining, setRemaining] = useState(hours * 3600)
@@ -21,6 +22,7 @@ function useCountdown(hours: number) {
 export function FlashSale() {
   const { h, m, s } = useCountdown(11)
   const deals = getDeals()
+  const { t } = useLanguage()
 
   return (
     <section className="relative overflow-hidden bg-gradient-primary py-16 sm:py-20">
@@ -32,8 +34,8 @@ export function FlashSale() {
               <Zap size={22} fill="currentColor" />
             </div>
             <div>
-              <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl">Flash Sale</h2>
-              <p className="text-sm text-white/70">Limited-time deals — grab them before they're gone.</p>
+              <h2 className="font-heading text-2xl font-bold text-white sm:text-3xl">{t('flashSaleTitle')}</h2>
+              <p className="text-sm text-white/70">{t('flashSaleSubtitle')}</p>
             </div>
           </div>
 
@@ -65,7 +67,7 @@ export function FlashSale() {
         <div className="mt-10 flex justify-center">
           <Link to="/shop?filter=deals">
             <Button variant="dark" size="lg" className="bg-white text-primary hover:bg-white/90">
-              View All Deals
+              {t('viewAllDeals')}
             </Button>
           </Link>
         </div>

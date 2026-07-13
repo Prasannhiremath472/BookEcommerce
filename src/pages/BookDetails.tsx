@@ -13,6 +13,7 @@ import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { useRecentlyViewed } from '@/hooks/useRecentlyViewed'
 import { ComingSoon } from './ComingSoon'
+import { useLanguage } from '@/context/LanguageContext'
 
 type Tab = 'description' | 'specs'
 
@@ -21,6 +22,7 @@ export function BookDetails() {
   const book = id ? getBookById(id) : undefined
   const { addItem } = useCart()
   const { toggle, has } = useWishlist()
+  const { t } = useLanguage()
   const [qty, setQty] = useState(1)
   const [tab, setTab] = useState<Tab>('description')
   const recentIds = useRecentlyViewed(book?.id)
@@ -39,7 +41,7 @@ export function BookDetails() {
     [recentIds, book],
   )
 
-  if (!book) return <ComingSoon title="Book Not Found" />
+  if (!book) return <ComingSoon title={t('bookNotFound')} />
 
   const discount = discountPercent(book.price, book.originalPrice)
   const bundlePrice = book.price + frequentlyBought.reduce((s, b) => s + b.price, 0)
@@ -49,8 +51,8 @@ export function BookDetails() {
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app">
         <nav className="mb-8 flex items-center gap-2 text-xs text-ink-muted">
-          <Link to="/" className="hover:text-primary">Home</Link> /
-          <Link to="/shop" className="hover:text-primary">Shop</Link> /
+          <Link to="/" className="hover:text-primary">{t('breadcrumbHome')}</Link> /
+          <Link to="/shop" className="hover:text-primary">{t('breadcrumbShop')}</Link> /
           <span className="text-ink">{book.title}</span>
         </nav>
 
@@ -63,12 +65,12 @@ export function BookDetails() {
             <span className="text-xs font-semibold uppercase tracking-wide text-primary">{book.category}</span>
             <h1 className="mt-2 font-heading text-3xl font-bold text-ink sm:text-4xl">{book.title}</h1>
             <Link to={`/shop?author=${book.authorId}`} className="mt-1 inline-block text-ink-muted hover:text-primary">
-              by {book.author}
+              {t('by')} {book.author}
             </Link>
 
             {book.isBestseller && (
               <div className="mt-4 flex items-center gap-4">
-                <Badge tone="accent">Bestseller</Badge>
+                <Badge tone="accent">{t('bestsellerBadge')}</Badge>
               </div>
             )}
 
@@ -77,23 +79,23 @@ export function BookDetails() {
               {book.originalPrice && (
                 <>
                   <span className="text-lg text-ink-muted line-through">{formatPrice(book.originalPrice)}</span>
-                  <Badge tone="success">Save {discount}%</Badge>
+                  <Badge tone="success">{t('save')} {discount}%</Badge>
                 </>
               )}
             </div>
 
             <div className="mt-8 border-t border-ink/8 pt-6">
               <div className="flex gap-1 rounded-full bg-ink/5 p-1">
-                {(['description', 'specs'] as Tab[]).map((t) => (
+                {(['description', 'specs'] as Tab[]).map((tabKey) => (
                   <button
-                    key={t}
-                    onClick={() => setTab(t)}
+                    key={tabKey}
+                    onClick={() => setTab(tabKey)}
                     className={clsx(
                       'flex-1 rounded-full py-2.5 text-sm font-semibold capitalize transition-colors',
-                      tab === t ? 'bg-white text-ink shadow-soft' : 'text-ink-muted',
+                      tab === tabKey ? 'bg-white text-ink shadow-soft' : 'text-ink-muted',
                     )}
                   >
-                    {t === 'specs' ? 'Specifications' : t}
+                    {tabKey === 'specs' ? t('tabSpecs') : t('tabDescription')}
                   </button>
                 ))}
               </div>
@@ -105,12 +107,12 @@ export function BookDetails() {
                 {tab === 'specs' && (
                   <dl className="grid grid-cols-2 gap-y-4 text-sm">
                     {[
-                      ['Format', book.format],
-                      ['Language', book.language],
-                      ['Publisher', book.publisher],
-                      ['Pages', String(book.pages)],
-                      ['Published', String(book.publishedYear)],
-                      ['ISBN', book.isbn],
+                      [t('specFormat'), book.format],
+                      [t('specLanguage'), book.language],
+                      [t('specPublisher'), book.publisher],
+                      [t('specPages'), String(book.pages)],
+                      [t('specPublished'), String(book.publishedYear)],
+                      [t('specISBN'), book.isbn],
                     ].map(([label, value]) => (
                       <div key={label}>
                         <dt className="text-ink-muted">{label}</dt>
@@ -133,15 +135,15 @@ export function BookDetails() {
               <div className="mb-4 flex items-center gap-2 text-sm">
                 {book.inStock ? (
                   <span className="flex items-center gap-1.5 font-medium text-success">
-                    <Check size={16} /> In Stock — {book.stockCount} left
+                    <Check size={16} /> {t('inStockLeft')} {book.stockCount} {t('left')}
                   </span>
                 ) : (
-                  <span className="font-medium text-danger">Out of Stock</span>
+                  <span className="font-medium text-danger">{t('outOfStock')}</span>
                 )}
               </div>
 
               <div className="mb-4 flex items-center gap-3">
-                <span className="text-sm font-medium text-ink">Quantity</span>
+                <span className="text-sm font-medium text-ink">{t('quantity')}</span>
                 <div className="flex items-center gap-3 rounded-full border border-ink/10 px-3 py-1.5">
                   <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="text-ink-soft">−</button>
                   <span className="w-4 text-center text-sm font-semibold">{qty}</span>
@@ -150,7 +152,7 @@ export function BookDetails() {
               </div>
 
               <Button className="w-full" size="lg" disabled={!book.inStock} onClick={() => addItem(book, qty)}>
-                <ShoppingBag size={18} /> Add to Cart
+                <ShoppingBag size={18} /> {t('addToCart')}
               </Button>
               <button
                 onClick={() => toggle(book.id)}
@@ -159,25 +161,25 @@ export function BookDetails() {
                   wished ? 'border-danger bg-danger/5 text-danger' : 'border-ink/10 text-ink hover:border-danger hover:text-danger',
                 )}
               >
-                <Heart size={16} className={clsx(wished && 'fill-current')} /> {wished ? 'In Wishlist' : 'Add to Wishlist'}
+                <Heart size={16} className={clsx(wished && 'fill-current')} /> {wished ? t('inWishlist') : t('addToWishlist')}
               </button>
 
               <div className="mt-6 flex flex-col gap-3 border-t border-ink/8 pt-6 text-sm text-ink-soft">
                 <div className="flex items-center gap-2.5">
-                  <Truck size={16} className="text-primary" /> Free shipping over ₹500
+                  <Truck size={16} className="text-primary" /> {t('freeShippingOver')}
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <RotateCcw size={16} className="text-primary" /> 30-day easy returns
+                  <RotateCcw size={16} className="text-primary" /> {t('easyReturns')}
                 </div>
                 <div className="flex items-center gap-2.5">
-                  <ShieldCheck size={16} className="text-primary" /> Secure checkout
+                  <ShieldCheck size={16} className="text-primary" /> {t('secureCheckout')}
                 </div>
               </div>
             </div>
 
             {frequentlyBought.length > 0 && (
               <div className="mt-6 rounded-2xl border border-ink/8 bg-white p-6 shadow-soft">
-                <h3 className="mb-4 font-heading text-sm font-semibold text-ink">Frequently Bought Together</h3>
+                <h3 className="mb-4 font-heading text-sm font-semibold text-ink">{t('frequentlyBought')}</h3>
                 <div className="flex flex-col gap-3">
                   {[book, ...frequentlyBought].map((b) => (
                     <div key={b.id} className="flex items-center gap-3">
@@ -188,11 +190,11 @@ export function BookDetails() {
                   ))}
                 </div>
                 <div className="mt-4 flex items-center justify-between border-t border-ink/8 pt-4">
-                  <span className="text-sm font-semibold text-ink">Bundle Total</span>
+                  <span className="text-sm font-semibold text-ink">{t('bundleTotal')}</span>
                   <span className="font-heading text-lg font-bold text-primary">{formatPrice(bundlePrice)}</span>
                 </div>
                 <Button variant="outline" className="mt-3 w-full" onClick={() => [book, ...frequentlyBought].forEach((b) => addItem(b))}>
-                  Add Bundle to Cart
+                  {t('addBundleToCart')}
                 </Button>
               </div>
             )}
@@ -201,7 +203,7 @@ export function BookDetails() {
 
         {related.length > 0 && (
           <section className="mt-20">
-            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">Related Books</h2>
+            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">{t('relatedBooks')}</h2>
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
               {related.map((b) => (
                 <BookCard key={b.id} book={b} />
@@ -212,7 +214,7 @@ export function BookDetails() {
 
         {recommended.length > 0 && (
           <section className="mt-20">
-            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">Recommended For You</h2>
+            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">{t('recommendedForYou')}</h2>
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
               {recommended.map((b) => (
                 <BookCard key={b.id} book={b} />
@@ -223,7 +225,7 @@ export function BookDetails() {
 
         {recentlyViewed.length > 0 && (
           <section className="mt-20">
-            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">Recently Viewed</h2>
+            <h2 className="mb-8 font-heading text-2xl font-bold text-ink">{t('recentlyViewed')}</h2>
             <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
               {recentlyViewed.map((b) => (
                 <BookCard key={b.id} book={b} />

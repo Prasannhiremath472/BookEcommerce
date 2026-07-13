@@ -9,33 +9,35 @@ import { Testimonials } from '@/components/home/Testimonials'
 import { BlogSection } from '@/components/home/BlogSection'
 import { Newsletter } from '@/components/home/Newsletter'
 import { books, getBestsellers, getTrending, getNewArrivals } from '@/data/books'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function Home() {
+  const { t } = useLanguage()
   return (
     <>
       <Hero />
       <BrandPartners />
       <CategoryGrid />
       <BookRail
-        eyebrow="Handpicked"
-        title="Bestsellers"
-        subtitle="The titles everyone's talking about right now."
+        eyebrow={t('bestsellersEyebrow')}
+        title={t('bestsellersTitle')}
+        subtitle={t('bestsellersSubtitle')}
         books={getBestsellers().length ? getBestsellers() : books.slice(0, 8)}
         ctaTo="/shop?filter=bestsellers"
       />
       <FlashSale />
       <BookRail
-        eyebrow="Rising Fast"
-        title="Trending This Week"
-        subtitle="What readers are adding to their carts."
+        eyebrow={t('trendingEyebrow')}
+        title={t('trendingTitle')}
+        subtitle={t('trendingSubtitle')}
         books={getTrending().length ? getTrending() : books.slice(2, 10)}
         ctaTo="/shop?filter=trending"
       />
       <WhyChooseUs />
       <BookRail
-        eyebrow="Just In"
-        title="New Arrivals"
-        subtitle="Fresh off the press."
+        eyebrow={t('newArrivalsEyebrow')}
+        title={t('newArrivalsTitle')}
+        subtitle={t('newArrivalsSubtitle')}
         books={getNewArrivals().length ? getNewArrivals() : books.slice(4, 12)}
         ctaTo="/shop?filter=new"
       />

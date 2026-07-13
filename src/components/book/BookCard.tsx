@@ -7,10 +7,12 @@ import { Badge } from '@/components/ui/Badge'
 import { formatPrice, discountPercent } from '@/lib/utils'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function BookCard({ book, onQuickView }: { book: Book; onQuickView?: (book: Book) => void }) {
   const { addItem } = useCart()
   const { toggle, has } = useWishlist()
+  const { t } = useLanguage()
   const wished = has(book.id)
   const discount = discountPercent(book.price, book.originalPrice)
 
@@ -36,8 +38,8 @@ export function BookCard({ book, onQuickView }: { book: Book; onQuickView?: (boo
 
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {book.badge && <Badge tone="accent">{book.badge}</Badge>}
-          {book.isNew && <Badge tone="primary">New</Badge>}
-          {!book.inStock && <Badge tone="dark">Out of Stock</Badge>}
+          {book.isNew && <Badge tone="primary">{t('new')}</Badge>}
+          {!book.inStock && <Badge tone="dark">{t('outOfStock')}</Badge>}
         </div>
 
         <motion.button
@@ -47,7 +49,7 @@ export function BookCard({ book, onQuickView }: { book: Book; onQuickView?: (boo
             'absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full backdrop-blur shadow-soft transition-colors',
             wished ? 'bg-danger text-white' : 'bg-white/90 text-ink-soft hover:text-danger',
           )}
-          aria-label="Toggle wishlist"
+          aria-label={t('toggleWishlist')}
         >
           <Heart size={16} className={clsx(wished && 'fill-current')} />
         </motion.button>
@@ -60,12 +62,12 @@ export function BookCard({ book, onQuickView }: { book: Book; onQuickView?: (boo
             disabled={!book.inStock}
             className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-ink py-2.5 text-xs font-semibold text-white shadow-lifted transition-colors hover:bg-primary disabled:opacity-50"
           >
-            <ShoppingBag size={14} /> Add to Cart
+            <ShoppingBag size={14} /> {t('addToCart')}
           </button>
           <button
             onClick={() => onQuickView?.(book)}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink shadow-lifted transition-colors hover:text-primary"
-            aria-label="Quick view"
+            aria-label={t('quickView')}
           >
             <Eye size={16} />
           </button>

@@ -125,7 +125,7 @@ export function Header() {
               className={`flex h-10 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors ${
                 transparent ? 'text-white hover:bg-white/10' : 'text-ink-soft hover:bg-ink/5'
               }`}
-              aria-label="Toggle language"
+              aria-label={t('toggleLanguageAria')}
             >
               <Languages size={17} />
               <span>{t('languageToggle')}</span>

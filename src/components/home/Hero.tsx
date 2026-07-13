@@ -3,12 +3,14 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { books } from '@/data/books'
+import { useLanguage } from '@/context/LanguageContext'
 
 const heroBooks = books.slice(0, 3)
 const languageCount = new Set(books.map((b) => b.language)).size
 const authorCount = new Set(books.map((b) => b.authorId)).size
 
 export function Hero() {
+  const { t } = useLanguage()
   return (
     <section className="relative overflow-hidden bg-gradient-dark pb-24 pt-40 sm:pb-32 sm:pt-48">
       <div className="pointer-events-none absolute inset-0 bg-gradient-radial-soft" />
@@ -23,7 +25,7 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white backdrop-blur"
           >
-            <Sparkles size={14} className="text-accent-400" /> New Era Publishing House Collection
+            <Sparkles size={14} className="text-accent-400" /> {t('heroTagline')}
           </motion.div>
 
           <motion.h1
@@ -32,10 +34,10 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-display-lg font-heading font-bold text-white"
           >
-            Stories worth
+            {t('heroTitleLine1')}
             <br />
             <span className="bg-gradient-to-r from-primary-300 via-secondary-300 to-accent-300 bg-clip-text text-transparent">
-              losing yourself in.
+              {t('heroTitleLine2')}
             </span>
           </motion.h1>
 
@@ -45,7 +47,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="mt-6 max-w-md text-lg text-white/70"
           >
-            Hand-curated bestsellers, rare finds, and timeless classics — delivered beautifully to your door.
+            {t('heroSubtitle')}
           </motion.p>
 
           <motion.div
@@ -56,12 +58,12 @@ export function Hero() {
           >
             <Link to="/shop">
               <Button size="lg">
-                Shop Collection <ArrowRight size={18} />
+                {t('shopCollection')} <ArrowRight size={18} />
               </Button>
             </Link>
             <Link to="/shop?filter=bestsellers">
               <Button size="lg" variant="ghost" className="text-white hover:bg-white/10">
-                Explore Bestsellers
+                {t('exploreBestsellers')}
               </Button>
             </Link>
           </motion.div>
@@ -73,9 +75,9 @@ export function Hero() {
             className="mt-14 flex gap-10"
           >
             {[
-              [`${books.length}+`, 'Titles'],
-              [`${authorCount}+`, 'Authors'],
-              [`${languageCount}`, 'Languages'],
+              [`${books.length}+`, t('statTitles')],
+              [`${authorCount}+`, t('statAuthors')],
+              [`${languageCount}`, t('statLanguages')],
             ].map(([stat, label]) => (
               <div key={label}>
                 <p className="font-heading text-3xl font-bold text-white">{stat}</p>

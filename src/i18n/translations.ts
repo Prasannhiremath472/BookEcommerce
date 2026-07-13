@@ -166,6 +166,7 @@ export const translations = {
   couponPlaceholder: { en: 'Coupon code (try FOLIO15)', mr: 'कूपन कोड (FOLIO15 वापरून पहा)' },
   apply: { en: 'Apply', mr: 'लागू करा' },
   couponApplied: { en: 'applied — 15% off!', mr: 'लागू झाले — 15% सूट!' },
+  couponLabel: { en: 'Coupon', mr: 'कूपन' },
   orderSummary: { en: 'Order Summary', mr: 'ऑर्डर सारांश' },
   discount: { en: 'Discount', mr: 'सवलत' },
   shipping: { en: 'Shipping', mr: 'शिपिंग' },
@@ -260,6 +261,7 @@ export const translations = {
   redeemableCredit: { en: 'in redeemable credit', mr: 'रिडीम करण्यायोग्य क्रेडिट' },
   goldTier: { en: 'Gold Tier', mr: 'गोल्ड टियर' },
   pointsHistory: { en: 'Points History', mr: 'पॉइंट्स इतिहास' },
+  pts: { en: 'pts', mr: 'गुण' },
   invoices: { en: 'Invoices', mr: 'इनव्हॉइस' },
   invoiceCol: { en: 'Invoice', mr: 'इनव्हॉइस' },
   orderCol: { en: 'Order', mr: 'ऑर्डर' },
@@ -277,9 +279,23 @@ export const translations = {
     en: 'This page is being crafted with the same care as the rest of Cosmos Edge. Check back soon.',
     mr: 'हे पान Cosmos Edge च्या इतर भागांप्रमाणेच काळजीपूर्वक तयार केले जात आहे. लवकरच परत तपासा.',
   },
+  pageNotFound: { en: 'Page Not Found', mr: 'पान सापडले नाही' },
 
   // Language toggle
   languageToggle: { en: 'मराठी', mr: 'English' },
+
+  // Misc UI (address card, footer, checkout, quantity minus/plus, etc.)
+  defaultBadge: { en: 'Default', mr: 'डीफॉल्ट' },
+  toggleLanguageAria: { en: 'Toggle language', mr: 'भाषा बदला' },
+  footerAddress: { en: 'Pune, Maharashtra, India', mr: 'पुणे, महाराष्ट्र, भारत' },
+  footerCopyright: { en: '© 2026 Cosmos Edge Bookstore. All rights reserved.', mr: '© 2026 Cosmos Edge बुकस्टोअर. सर्व हक्क राखीव.' },
+  cardExpiryPlaceholder: { en: 'MM / YY', mr: 'MM / YY' },
+  cardCvvPlaceholder: { en: 'CVV', mr: 'CVV' },
+  upiPlaceholder: { en: 'yourname@upi', mr: 'yourname@upi' },
+  placeOrderWithTotal: { en: 'Place Order —', mr: 'ऑर्डर द्या —' },
+  subtotalWithItems: { en: 'Subtotal', mr: 'उपबेरीज' },
+  cosmosOrderNote: { en: 'Cosmos Edge order —', mr: 'Cosmos Edge ऑर्डर —' },
+  inStockLeft: { en: 'In Stock —', mr: 'स्टॉकमध्ये —' },
 } as const
 
 export type TranslationKey = keyof typeof translations

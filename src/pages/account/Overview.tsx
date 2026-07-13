@@ -5,15 +5,17 @@ import { orders, walletBalance, rewardPoints } from '@/data/account'
 import { useWishlist } from '@/context/WishlistContext'
 import { formatPrice } from '@/lib/utils'
 import { OrderCard } from '@/components/account/OrderCard'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function Overview() {
   const { count: wishCount } = useWishlist()
+  const { t } = useLanguage()
 
   const stats = [
-    { label: 'Total Orders', value: orders.length, icon: Package, to: '/account/orders', tone: 'primary' },
-    { label: 'Wishlist Items', value: wishCount, icon: Heart, to: '/account/wishlist', tone: 'danger' },
-    { label: 'Wallet Balance', value: formatPrice(walletBalance), icon: Wallet, to: '/account/wallet', tone: 'success' },
-    { label: 'Reward Points', value: rewardPoints.toLocaleString(), icon: Gift, to: '/account/rewards', tone: 'accent' },
+    { label: t('totalOrders'), value: orders.length, icon: Package, to: '/account/orders', tone: 'primary' },
+    { label: t('wishlistItems'), value: wishCount, icon: Heart, to: '/account/wishlist', tone: 'danger' },
+    { label: t('walletBalance'), value: formatPrice(walletBalance), icon: Wallet, to: '/account/wallet', tone: 'success' },
+    { label: t('rewardPoints'), value: rewardPoints.toLocaleString(), icon: Gift, to: '/account/rewards', tone: 'accent' },
   ] as const
 
   const toneClasses = {
@@ -46,9 +48,9 @@ export function Overview() {
 
       <div className="mt-10">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-heading text-lg font-bold text-ink">Recent Orders</h2>
+          <h2 className="font-heading text-lg font-bold text-ink">{t('recentOrders')}</h2>
           <Link to="/account/orders" className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline">
-            View All <ArrowRight size={14} />
+            {t('viewAll')} <ArrowRight size={14} />
           </Link>
         </div>
         <div className="flex flex-col gap-4">

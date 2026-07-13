@@ -7,10 +7,12 @@ import { Badge } from '@/components/ui/Badge'
 import { formatPrice, discountPercent } from '@/lib/utils'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function BookListItem({ book }: { book: Book }) {
   const { addItem } = useCart()
   const { toggle, has } = useWishlist()
+  const { t } = useLanguage()
   const wished = has(book.id)
   const discount = discountPercent(book.price, book.originalPrice)
 
@@ -37,7 +39,7 @@ export function BookListItem({ book }: { book: Book }) {
           </div>
           <div className="flex gap-1.5">
             {book.badge && <Badge tone="accent">{book.badge}</Badge>}
-            {!book.inStock && <Badge tone="dark">Out of Stock</Badge>}
+            {!book.inStock && <Badge tone="dark">{t('outOfStock')}</Badge>}
           </div>
         </div>
 
@@ -68,7 +70,7 @@ export function BookListItem({ book }: { book: Book }) {
               disabled={!book.inStock}
               className="flex items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-primary disabled:opacity-50"
             >
-              <ShoppingBag size={14} /> Add to Cart
+              <ShoppingBag size={14} /> {t('addToCart')}
             </button>
           </div>
         </div>

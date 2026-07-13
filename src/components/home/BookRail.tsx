@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Book } from '@/data/types'
 import { BookCard } from '@/components/book/BookCard'
 import { SectionHeading } from './SectionHeading'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function BookRail({
   eyebrow,
@@ -18,6 +19,7 @@ export function BookRail({
   ctaTo?: string
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const { t } = useLanguage()
 
   const scroll = (dir: 1 | -1) => {
     scrollRef.current?.scrollBy({ left: dir * 320, behavior: 'smooth' })
@@ -26,7 +28,7 @@ export function BookRail({
   return (
     <section className="container-app py-16 sm:py-20">
       <div className="flex items-end justify-between">
-        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} cta={ctaTo ? 'View All' : undefined} ctaTo={ctaTo} />
+        <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} cta={ctaTo ? t('viewAll') : undefined} ctaTo={ctaTo} />
         <div className="mb-10 hidden gap-2 sm:flex">
           <button
             onClick={() => scroll(-1)}

@@ -10,11 +10,13 @@ import { FilterSidebar, defaultFilters, type Filters } from '@/components/shop/F
 import { SkeletonCard } from '@/components/ui/SkeletonCard'
 import { QuickViewModal } from '@/components/book/QuickViewModal'
 import type { Book } from '@/data/types'
+import { useLanguage } from '@/context/LanguageContext'
 
 type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'newest'
 
 export function Shop() {
   const [searchParams] = useSearchParams()
+  const { t } = useLanguage()
   const [filters, setFilters] = useState<Filters>(defaultFilters)
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [sort, setSort] = useState<SortKey>('featured')
@@ -72,15 +74,15 @@ export function Shop() {
     ? filterLabel.charAt(0).toUpperCase() + filterLabel.slice(1)
     : searchParams.get('category')
       ? categories.find((c) => c.slug === searchParams.get('category'))?.name
-      : 'All Books'
+      : t('allBooks')
 
   return (
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary">Shop</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary">{t('shopEyebrow')}</p>
           <h1 className="mt-2 text-display-md font-heading font-bold text-ink">{pageTitle}</h1>
-          <p className="mt-2 text-ink-muted">{filtered.length} books found</p>
+          <p className="mt-2 text-ink-muted">{filtered.length} {t('booksFound')}</p>
         </motion.div>
 
         <div className="flex gap-10">
@@ -94,7 +96,7 @@ export function Shop() {
                 onClick={() => setMobileFiltersOpen(true)}
                 className="flex items-center gap-2 text-sm font-semibold text-ink lg:hidden"
               >
-                <SlidersHorizontal size={16} /> Filters
+                <SlidersHorizontal size={16} /> {t('filters')}
               </button>
 
               <div className="ml-auto flex items-center gap-3">
@@ -103,10 +105,10 @@ export function Shop() {
                   onChange={(e) => setSort(e.target.value as SortKey)}
                   className="rounded-full border border-ink/10 bg-white px-4 py-2 text-sm font-medium text-ink outline-none"
                 >
-                  <option value="featured">Featured</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="newest">Newest</option>
+                  <option value="featured">{t('sortFeatured')}</option>
+                  <option value="price-asc">{t('sortPriceLowHigh')}</option>
+                  <option value="price-desc">{t('sortPriceHighLow')}</option>
+                  <option value="newest">{t('sortNewest')}</option>
                 </select>
 
                 <div className="flex items-center rounded-full border border-ink/10 p-1">
@@ -134,8 +136,8 @@ export function Shop() {
               </div>
             ) : filtered.length === 0 ? (
               <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-ink/15 py-24 text-center">
-                <p className="font-heading text-lg font-semibold text-ink">No books match your filters</p>
-                <p className="mt-1 text-sm text-ink-muted">Try adjusting or clearing your filters.</p>
+                <p className="font-heading text-lg font-semibold text-ink">{t('noBooksMatch')}</p>
+                <p className="mt-1 text-sm text-ink-muted">{t('tryAdjusting')}</p>
               </div>
             ) : view === 'grid' ? (
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-4">
@@ -172,7 +174,7 @@ export function Shop() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-4 flex items-center justify-between">
-                <h3 className="font-heading text-lg font-bold">Filters</h3>
+                <h3 className="font-heading text-lg font-bold">{t('filters')}</h3>
                 <button onClick={() => setMobileFiltersOpen(false)}>
                   <X size={20} />
                 </button>

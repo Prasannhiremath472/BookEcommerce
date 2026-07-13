@@ -10,13 +10,15 @@ import { Button } from '@/components/ui/Button'
 import { StepProgress } from '@/components/checkout/StepProgress'
 import { AddressCard } from '@/components/checkout/AddressCard'
 import { openRazorpayCheckout } from '@/lib/razorpay'
+import { useLanguage } from '@/context/LanguageContext'
 
-const steps = ['Address', 'Payment', 'Review']
 type PaymentMethod = 'razorpay' | 'card' | 'upi' | 'cod'
 
 export function Checkout() {
   const { items, subtotal, closeCart, clearCart } = useCart()
   const navigate = useNavigate()
+  const { t } = useLanguage()
+  const steps = [t('stepAddress'), t('stepPayment'), t('stepReview')]
   const [step, setStep] = useState(0)
   const [addressId, setAddressId] = useState(mockAddresses.find((a) => a.isDefault)?.id ?? mockAddresses[0]?.id)
   const [method, setMethod] = useState<PaymentMethod>('razorpay')
@@ -39,7 +41,7 @@ export function Checkout() {
     if (method === 'razorpay') {
       const result = await openRazorpayCheckout({
         amount: total,
-        description: `Cosmos Edge order — ${items.length} item(s)`,
+        description: `${t('cosmosOrderNote')} ${items.length} ${t('items').toLowerCase()}`,
       })
       setProcessing(false)
       if (result.success) {
@@ -61,7 +63,7 @@ export function Checkout() {
   return (
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app max-w-5xl">
-        <h1 className="mb-10 font-heading text-3xl font-bold text-ink">Checkout</h1>
+        <h1 className="mb-10 font-heading text-3xl font-bold text-ink">{t('checkoutTitle')}</h1>
 
         <div className="mb-12">
           <StepProgress steps={steps} current={step} />
@@ -72,30 +74,30 @@ export function Checkout() {
             <AnimatePresence mode="wait">
               {step === 0 && (
                 <motion.div key="address" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">Choose Delivery Address</h2>
+                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">{t('chooseAddress')}</h2>
                   <div className="flex flex-col gap-4">
                     {mockAddresses.map((a) => (
                       <AddressCard key={a.id} address={a} selected={addressId === a.id} onSelect={() => setAddressId(a.id)} />
                     ))}
                     <button className="rounded-2xl border-2 border-dashed border-ink/15 p-5 text-sm font-semibold text-ink-muted hover:border-primary hover:text-primary">
-                      + Add New Address
+                      {t('addNewAddress')}
                     </button>
                   </div>
                   <Button className="mt-8" size="lg" onClick={() => setStep(1)}>
-                    Continue to Payment <ArrowRight size={18} />
+                    {t('continueToPayment')} <ArrowRight size={18} />
                   </Button>
                 </motion.div>
               )}
 
               {step === 1 && (
                 <motion.div key="payment" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">Payment Method</h2>
+                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">{t('paymentMethod')}</h2>
                   <div className="flex flex-col gap-3">
                     {[
-                      { id: 'razorpay' as const, label: 'Razorpay (Cards, UPI, Wallets)', icon: ShieldCheck, tag: 'Recommended' },
-                      { id: 'card' as const, label: 'Credit / Debit Card', icon: CreditCard },
-                      { id: 'upi' as const, label: 'UPI', icon: Landmark },
-                      { id: 'cod' as const, label: 'Cash on Delivery', icon: Wallet },
+                      { id: 'razorpay' as const, label: t('razorpayOption'), icon: ShieldCheck, tag: t('recommended') },
+                      { id: 'card' as const, label: t('cardOption'), icon: CreditCard },
+                      { id: 'upi' as const, label: t('upiOption'), icon: Landmark },
+                      { id: 'cod' as const, label: t('codOption'), icon: Wallet },
                     ].map((opt) => (
                       <button
                         key={opt.id}
@@ -121,26 +123,26 @@ export function Checkout() {
 
                   {method === 'card' && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-5 grid gap-4 rounded-2xl border border-ink/8 bg-white p-5">
-                      <input placeholder="Card Number" className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
+                      <input placeholder={t('cardNumberPlaceholder')} className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
                       <div className="grid grid-cols-2 gap-4">
-                        <input placeholder="MM / YY" className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
-                        <input placeholder="CVV" className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
+                        <input placeholder={t('cardExpiryPlaceholder')} className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
+                        <input placeholder={t('cardCvvPlaceholder')} className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
                       </div>
-                      <input placeholder="Name on Card" className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
+                      <input placeholder={t('cardNamePlaceholder')} className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
                     </motion.div>
                   )}
                   {method === 'upi' && (
                     <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="mt-5 rounded-2xl border border-ink/8 bg-white p-5">
-                      <input placeholder="yourname@upi" className="w-full rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
+                      <input placeholder={t('upiPlaceholder')} className="w-full rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary" />
                     </motion.div>
                   )}
 
                   <div className="mt-8 flex gap-3">
                     <Button variant="outline" onClick={() => setStep(0)}>
-                      <ArrowLeft size={18} /> Back
+                      <ArrowLeft size={18} /> {t('back')}
                     </Button>
                     <Button onClick={() => setStep(2)}>
-                      Review Order <ArrowRight size={18} />
+                      {t('reviewOrder')} <ArrowRight size={18} />
                     </Button>
                   </div>
                 </motion.div>
@@ -148,10 +150,10 @@ export function Checkout() {
 
               {step === 2 && (
                 <motion.div key="review" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">Review Your Order</h2>
+                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">{t('reviewYourOrder')}</h2>
 
                   <div className="rounded-2xl border border-ink/8 bg-white p-5">
-                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">Delivering To</p>
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink-muted">{t('deliveringTo')}</p>
                     {selectedAddress && (
                       <p className="text-sm text-ink-soft">
                         {selectedAddress.name} — {selectedAddress.line1}, {selectedAddress.city}, {selectedAddress.state} {selectedAddress.zip}
@@ -160,14 +162,14 @@ export function Checkout() {
                   </div>
 
                   <div className="mt-4 rounded-2xl border border-ink/8 bg-white p-5">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">Items ({items.length})</p>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink-muted">{t('items')} ({items.length})</p>
                     <div className="flex flex-col gap-4">
                       {items.map((item) => (
                         <div key={item.book.id} className="flex items-center gap-3">
                           <img src={item.book.cover} alt="" className="h-14 w-10 rounded object-cover" />
                           <div className="flex-1">
                             <p className="line-clamp-1 text-sm font-medium text-ink">{item.book.title}</p>
-                            <p className="text-xs text-ink-muted">Qty {item.quantity}</p>
+                            <p className="text-xs text-ink-muted">{t('qty')} {item.quantity}</p>
                           </div>
                           <span className="text-sm font-semibold text-ink">{formatPrice(item.book.price * item.quantity)}</span>
                         </div>
@@ -177,15 +179,15 @@ export function Checkout() {
 
                   <div className="mt-8 flex gap-3">
                     <Button variant="outline" onClick={() => setStep(1)}>
-                      <ArrowLeft size={18} /> Back
+                      <ArrowLeft size={18} /> {t('back')}
                     </Button>
                     <Button onClick={placeOrder} disabled={processing} className="flex-1">
                       {processing ? (
                         <>
-                          <Loader2 size={18} className="animate-spin" /> Processing Payment...
+                          <Loader2 size={18} className="animate-spin" /> {t('processingPayment')}
                         </>
                       ) : (
-                        <>Place Order — {formatPrice(total)}</>
+                        <>{t('placeOrderWithTotal')} {formatPrice(total)}</>
                       )}
                     </Button>
                   </div>
@@ -195,23 +197,23 @@ export function Checkout() {
           </div>
 
           <div className="h-fit rounded-2xl border border-ink/8 bg-white p-6 shadow-card lg:sticky lg:top-28">
-            <h3 className="mb-5 font-heading text-lg font-bold text-ink">Order Summary</h3>
+            <h3 className="mb-5 font-heading text-lg font-bold text-ink">{t('orderSummary')}</h3>
             <div className="flex flex-col gap-3 text-sm">
               <div className="flex justify-between text-ink-soft">
-                <span>Subtotal ({items.length} items)</span>
+                <span>{t('subtotalWithItems')} ({items.length} {t('items').toLowerCase()})</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between text-ink-soft">
-                <span>Shipping</span>
-                <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
+                <span>{t('shipping')}</span>
+                <span>{shipping === 0 ? t('free') : formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between border-t border-ink/8 pt-3 font-heading text-lg font-bold text-ink">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span>{formatPrice(total)}</span>
               </div>
             </div>
             <div className="mt-5 flex items-center gap-2 rounded-xl bg-primary-50 p-3 text-xs text-primary">
-              <ShieldCheck size={16} /> Your payment is encrypted and secure.
+              <ShieldCheck size={16} /> {t('securePaymentNote')}
             </div>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion'
 import { BookOpen } from 'lucide-react'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function ComingSoon({ title }: { title: string }) {
+  const { t } = useLanguage()
   return (
     <div className="container-app flex min-h-[60vh] flex-col items-center justify-center py-32 text-center">
       <motion.div
@@ -13,7 +15,7 @@ export function ComingSoon({ title }: { title: string }) {
           <BookOpen size={28} />
         </div>
         <h1 className="font-heading text-3xl font-bold text-ink">{title}</h1>
-        <p className="mt-3 text-ink-muted">This page is being crafted with the same care as the rest of Cosmos Edge. Check back soon.</p>
+        <p className="mt-3 text-ink-muted">{t('comingSoonMessage')}</p>
       </motion.div>
     </div>
   )

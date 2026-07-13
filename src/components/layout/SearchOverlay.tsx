@@ -4,9 +4,11 @@ import { Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { books } from '@/data/books'
 import { formatPrice } from '@/lib/utils'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState('')
+  const { t } = useLanguage()
 
   useEffect(() => {
     if (!open) setQuery('')
@@ -43,7 +45,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                   autoFocus
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search for books, authors, ISBN..."
+                  placeholder={t('searchPlaceholder')}
                   className="flex-1 bg-transparent text-base outline-none placeholder:text-ink-muted"
                 />
                 <button onClick={onClose} className="text-ink-muted hover:text-ink">
@@ -70,7 +72,7 @@ export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () =>
                 </div>
               )}
               {query && results.length === 0 && (
-                <p className="p-6 text-center text-sm text-ink-muted">No results for "{query}"</p>
+                <p className="p-6 text-center text-sm text-ink-muted">{t('noResultsFor')} "{query}"</p>
               )}
             </div>
           </motion.div>

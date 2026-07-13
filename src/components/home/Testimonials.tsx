@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom'
 import { Quote } from 'lucide-react'
 import { books } from '@/data/books'
 import { SectionHeading } from './SectionHeading'
+import { useLanguage } from '@/context/LanguageContext'
 
 const picks = books.filter((b) => b.isBestseller).slice(0, 3)
 
 export function Testimonials() {
+  const { t } = useLanguage()
   return (
     <section className="container-app py-16 sm:py-20">
-      <SectionHeading eyebrow="Editor's Picks" title="Books Our Editors Can't Stop Talking About" subtitle="Straight from the catalog blurbs." />
+      <SectionHeading eyebrow={t('editorPicksEyebrow')} title={t('editorPicksTitle')} subtitle={t('editorPicksSubtitle')} />
       <div className="grid gap-6 md:grid-cols-3">
         {picks.map((b, i) => (
           <motion.div

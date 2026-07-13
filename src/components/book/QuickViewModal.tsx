@@ -8,10 +8,12 @@ import { formatPrice, discountPercent } from '@/lib/utils'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { Button } from '@/components/ui/Button'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function QuickViewModal({ book, onClose }: { book: Book | null; onClose: () => void }) {
   const { addItem } = useCart()
   const { toggle, has } = useWishlist()
+  const { t } = useLanguage()
 
   return (
     <AnimatePresence>
@@ -42,7 +44,7 @@ export function QuickViewModal({ book, onClose }: { book: Book | null; onClose: 
             <div className="flex flex-col">
               <span className="text-xs font-semibold uppercase tracking-wide text-primary">{book.category}</span>
               <h2 className="mt-1 font-heading text-2xl font-bold text-ink">{book.title}</h2>
-              <p className="text-sm text-ink-muted">by {book.author}</p>
+              <p className="text-sm text-ink-muted">{t('by')} {book.author}</p>
 
               <div className="mt-4 flex items-baseline gap-2">
                 <span className="font-heading text-2xl font-bold text-ink">{formatPrice(book.price)}</span>
@@ -59,16 +61,16 @@ export function QuickViewModal({ book, onClose }: { book: Book | null; onClose: 
               <div className="mt-4 flex items-center gap-2 text-sm">
                 {book.inStock ? (
                   <span className="flex items-center gap-1.5 text-success">
-                    <Check size={15} /> In Stock ({book.stockCount})
+                    <Check size={15} /> {t('inStock')} ({book.stockCount})
                   </span>
                 ) : (
-                  <span className="text-danger">Out of Stock</span>
+                  <span className="text-danger">{t('outOfStock')}</span>
                 )}
               </div>
 
               <div className="mt-6 flex gap-3">
                 <Button className="flex-1" onClick={() => addItem(book)} disabled={!book.inStock}>
-                  <ShoppingBag size={16} /> Add to Cart
+                  <ShoppingBag size={16} /> {t('addToCart')}
                 </Button>
                 <button
                   onClick={() => toggle(book.id)}
@@ -82,7 +84,7 @@ export function QuickViewModal({ book, onClose }: { book: Book | null; onClose: 
               </div>
 
               <Link to={`/book/${book.id}`} onClick={onClose} className="mt-4 text-center text-sm font-semibold text-primary hover:underline">
-                View Full Details
+                {t('viewFullDetails')}
               </Link>
             </div>
           </motion.div>

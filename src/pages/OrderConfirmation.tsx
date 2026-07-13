@@ -3,11 +3,13 @@ import { motion } from 'framer-motion'
 import { CheckCircle2, Package, Home } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { formatPrice } from '@/lib/utils'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function OrderConfirmation() {
   const location = useLocation()
   const state = location.state as { paymentId?: string; total?: number } | null
   const orderId = `FOL-${Math.floor(100000 + Math.random() * 900000)}`
+  const { t } = useLanguage()
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center bg-surface px-4 pt-24">
@@ -26,23 +28,23 @@ export function OrderConfirmation() {
           <CheckCircle2 size={44} />
         </motion.div>
 
-        <h1 className="font-heading text-2xl font-bold text-ink">Order Placed Successfully!</h1>
-        <p className="mt-2 text-ink-muted">Thank you for shopping with Cosmos Edge. A confirmation email is on its way.</p>
+        <h1 className="font-heading text-2xl font-bold text-ink">{t('orderPlacedTitle')}</h1>
+        <p className="mt-2 text-ink-muted">{t('orderPlacedSubtitle')}</p>
 
         <div className="mt-8 flex flex-col gap-3 rounded-2xl bg-ink/[0.03] p-5 text-left text-sm">
           <div className="flex justify-between">
-            <span className="text-ink-muted">Order ID</span>
+            <span className="text-ink-muted">{t('orderId')}</span>
             <span className="font-semibold text-ink">{orderId}</span>
           </div>
           {state?.paymentId && (
             <div className="flex justify-between">
-              <span className="text-ink-muted">Payment ID</span>
+              <span className="text-ink-muted">{t('paymentId')}</span>
               <span className="font-mono text-xs font-semibold text-ink">{state.paymentId}</span>
             </div>
           )}
           {state?.total !== undefined && (
             <div className="flex justify-between border-t border-ink/8 pt-3">
-              <span className="text-ink-muted">Amount Paid</span>
+              <span className="text-ink-muted">{t('amountPaid')}</span>
               <span className="font-heading text-base font-bold text-ink">{formatPrice(state.total)}</span>
             </div>
           )}
@@ -51,12 +53,12 @@ export function OrderConfirmation() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
           <Link to="/account/orders" className="flex-1">
             <Button variant="outline" className="w-full">
-              <Package size={16} /> Track Order
+              <Package size={16} /> {t('trackOrder')}
             </Button>
           </Link>
           <Link to="/" className="flex-1">
             <Button className="w-full">
-              <Home size={16} /> Continue Shopping
+              <Home size={16} /> {t('continueShopping')}
             </Button>
           </Link>
         </div>

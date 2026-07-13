@@ -3,7 +3,7 @@ import { Layout } from '@/components/layout/Layout'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 import { CartProvider } from '@/context/CartContext'
 import { WishlistProvider } from '@/context/WishlistContext'
-import { LanguageProvider } from '@/context/LanguageContext'
+import { LanguageProvider, useLanguage } from '@/context/LanguageContext'
 import { Home } from '@/pages/Home'
 import { Shop } from '@/pages/Shop'
 import { BookDetails } from '@/pages/BookDetails'
@@ -20,6 +20,11 @@ import { RewardsPage } from '@/pages/account/RewardsPage'
 import { InvoicesPage } from '@/pages/account/InvoicesPage'
 import { MyReviewsPage } from '@/pages/account/MyReviewsPage'
 import { NotificationsPage } from '@/pages/account/NotificationsPage'
+
+function NotFoundPage() {
+  const { t } = useLanguage()
+  return <ComingSoon title={t('pageNotFound')} />
+}
 
 export default function App() {
   return (
@@ -48,7 +53,7 @@ export default function App() {
                 <Route path="notifications" element={<NotificationsPage />} />
               </Route>
 
-              <Route path="*" element={<ComingSoon title="Page Not Found" />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Layout>
         </WishlistProvider>

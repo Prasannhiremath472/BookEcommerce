@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeItem, updateQuantity, subtotal } = useCart()
+  const { t } = useLanguage()
 
   return (
     <AnimatePresence>
@@ -27,7 +29,7 @@ export function CartDrawer() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-ink/10 px-6 py-5">
-              <h3 className="font-heading text-lg font-bold">Your Cart ({items.length})</h3>
+              <h3 className="font-heading text-lg font-bold">{t('yourCart')} ({items.length})</h3>
               <button onClick={closeCart} className="text-ink-muted hover:text-ink">
                 <X size={22} />
               </button>
@@ -36,8 +38,8 @@ export function CartDrawer() {
             {items.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
                 <ShoppingBag size={48} className="text-ink/15" />
-                <p className="text-ink-muted">Your cart is empty.</p>
-                <Button onClick={closeCart}>Continue Shopping</Button>
+                <p className="text-ink-muted">{t('cartEmpty')}</p>
+                <Button onClick={closeCart}>{t('continueShopping')}</Button>
               </div>
             ) : (
               <>
@@ -84,12 +86,12 @@ export function CartDrawer() {
 
                 <div className="border-t border-ink/10 px-6 py-5">
                   <div className="mb-4 flex items-center justify-between">
-                    <span className="text-sm text-ink-muted">Subtotal</span>
+                    <span className="text-sm text-ink-muted">{t('subtotal')}</span>
                     <span className="font-heading text-xl font-bold text-ink">{formatPrice(subtotal)}</span>
                   </div>
                   <Link to="/checkout" onClick={closeCart}>
                     <Button className="w-full" size="lg">
-                      Checkout
+                      {t('checkout')}
                     </Button>
                   </Link>
                 </div>

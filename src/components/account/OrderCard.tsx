@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import type { Order } from '@/data/types'
 import { formatPrice } from '@/lib/utils'
 import { Badge } from '@/components/ui/Badge'
+import { useLanguage } from '@/context/LanguageContext'
 
 const statusTone: Record<Order['status'], 'primary' | 'accent' | 'success' | 'danger' | 'dark' | 'outline'> = {
   Processing: 'outline',
@@ -16,6 +17,7 @@ const statusTone: Record<Order['status'], 'primary' | 'accent' | 'success' | 'da
 
 export function OrderCard({ order }: { order: Order }) {
   const [open, setOpen] = useState(false)
+  const { t } = useLanguage()
 
   return (
     <div className="rounded-2xl border border-ink/8 bg-white shadow-soft">
@@ -28,7 +30,7 @@ export function OrderCard({ order }: { order: Order }) {
           </div>
           <div>
             <p className="font-heading text-sm font-semibold text-ink">{order.id}</p>
-            <p className="text-xs text-ink-muted">{order.date} · {order.items.length} item(s)</p>
+            <p className="text-xs text-ink-muted">{order.date} · {order.items.length} {t('items').toLowerCase()}</p>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -63,13 +65,13 @@ export function OrderCard({ order }: { order: Order }) {
                   <div key={item.bookId} className="flex items-center gap-3">
                     <img src={item.cover} alt="" className="h-12 w-9 rounded object-cover" />
                     <span className="line-clamp-1 flex-1 text-sm text-ink-soft">{item.title}</span>
-                    <span className="text-xs text-ink-muted">Qty {item.quantity}</span>
+                    <span className="text-xs text-ink-muted">{t('qty')} {item.quantity}</span>
                     <span className="text-sm font-semibold text-ink">{formatPrice(item.price * item.quantity)}</span>
                   </div>
                 ))}
               </div>
 
-              <p className="mt-4 border-t border-ink/8 pt-4 text-xs text-ink-muted">Delivering to: {order.address}</p>
+              <p className="mt-4 border-t border-ink/8 pt-4 text-xs text-ink-muted">{t('deliveringToLabel')} {order.address}</p>
             </div>
           </motion.div>
         )}

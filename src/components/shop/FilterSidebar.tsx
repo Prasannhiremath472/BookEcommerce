@@ -4,6 +4,7 @@ import { ChevronDown, X } from 'lucide-react'
 import { categories } from '@/data/categories'
 import { authors } from '@/data/authors'
 import { formatPrice } from '@/lib/utils'
+import { useLanguage } from '@/context/LanguageContext'
 
 export interface Filters {
   categories: string[]
@@ -72,6 +73,7 @@ function Checkbox({ label, checked, onChange, count }: { label: string; checked:
 }
 
 export function FilterSidebar({ filters, setFilters }: { filters: Filters; setFilters: (f: Filters) => void }) {
+  const { t } = useLanguage()
   const toggleArr = (key: 'categories' | 'authors' | 'languages' | 'publishers' | 'formats', value: string) => {
     const arr = filters[key]
     setFilters({
@@ -91,18 +93,18 @@ export function FilterSidebar({ filters, setFilters }: { filters: Filters; setFi
   return (
     <aside className="w-full lg:w-64 lg:flex-shrink-0">
       <div className="mb-5 flex items-center justify-between">
-        <h3 className="font-heading text-lg font-bold text-ink">Filters</h3>
+        <h3 className="font-heading text-lg font-bold text-ink">{t('filters')}</h3>
         {activeCount > 0 && (
           <button
             onClick={() => setFilters(defaultFilters)}
             className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
           >
-            <X size={12} /> Clear ({activeCount})
+            <X size={12} /> {t('clear')} ({activeCount})
           </button>
         )}
       </div>
 
-      <FilterGroup title="Price Range">
+      <FilterGroup title={t('priceRange')}>
         <input
           type="range"
           min={50}
@@ -114,11 +116,11 @@ export function FilterSidebar({ filters, setFilters }: { filters: Filters; setFi
         />
         <div className="mt-2 flex justify-between text-xs text-ink-muted">
           <span>₹0</span>
-          <span className="font-semibold text-ink">Up to {formatPrice(filters.maxPrice)}</span>
+          <span className="font-semibold text-ink">{t('upTo')} {formatPrice(filters.maxPrice)}</span>
         </div>
       </FilterGroup>
 
-      <FilterGroup title="Category">
+      <FilterGroup title={t('category')}>
         {categories.map((c) => (
           <Checkbox
             key={c.id}
@@ -130,32 +132,32 @@ export function FilterSidebar({ filters, setFilters }: { filters: Filters; setFi
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Author" defaultOpen={false}>
+      <FilterGroup title={t('author')} defaultOpen={false}>
         {authors.map((a) => (
           <Checkbox key={a.id} label={a.name} checked={filters.authors.includes(a.id)} onChange={() => toggleArr('authors', a.id)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Format" defaultOpen={false}>
+      <FilterGroup title={t('format')} defaultOpen={false}>
         {formats.map((f) => (
           <Checkbox key={f} label={f} checked={filters.formats.includes(f)} onChange={() => toggleArr('formats', f)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Language" defaultOpen={false}>
+      <FilterGroup title={t('language')} defaultOpen={false}>
         {languages.map((l) => (
           <Checkbox key={l} label={l} checked={filters.languages.includes(l)} onChange={() => toggleArr('languages', l)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Publisher" defaultOpen={false}>
+      <FilterGroup title={t('publisher')} defaultOpen={false}>
         {publishers.map((p) => (
           <Checkbox key={p} label={p} checked={filters.publishers.includes(p)} onChange={() => toggleArr('publishers', p)} />
         ))}
       </FilterGroup>
 
-      <FilterGroup title="Availability">
-        <Checkbox label="In Stock Only" checked={filters.inStockOnly} onChange={() => setFilters({ ...filters, inStockOnly: !filters.inStockOnly })} />
+      <FilterGroup title={t('availability')}>
+        <Checkbox label={t('inStockOnly')} checked={filters.inStockOnly} onChange={() => setFilters({ ...filters, inStockOnly: !filters.inStockOnly })} />
       </FilterGroup>
     </aside>
   )

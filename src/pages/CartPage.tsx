@@ -5,10 +5,12 @@ import { Minus, Plus, X, ShoppingBag, Tag, ArrowRight } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function CartPage() {
   const { items, updateQuantity, removeItem, subtotal } = useCart()
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const [coupon, setCoupon] = useState('')
   const [applied, setApplied] = useState<string | null>(null)
   const [couponError, setCouponError] = useState('')
@@ -22,7 +24,7 @@ export function CartPage() {
       setApplied('FOLIO15')
       setCouponError('')
     } else {
-      setCouponError('Invalid or expired code')
+      setCouponError(t('invalidCoupon'))
     }
   }
 
@@ -30,10 +32,10 @@ export function CartPage() {
     return (
       <div className="container-app flex min-h-[60vh] flex-col items-center justify-center py-32 text-center">
         <ShoppingBag size={48} className="text-ink/15" />
-        <h1 className="mt-6 font-heading text-2xl font-bold text-ink">Your cart is empty</h1>
-        <p className="mt-2 text-ink-muted">Looks like you haven't added anything yet.</p>
+        <h1 className="mt-6 font-heading text-2xl font-bold text-ink">{t('cartEmptyTitle')}</h1>
+        <p className="mt-2 text-ink-muted">{t('cartEmptySubtitle')}</p>
         <Link to="/shop">
-          <Button className="mt-6" size="lg">Start Shopping</Button>
+          <Button className="mt-6" size="lg">{t('startShopping')}</Button>
         </Link>
       </div>
     )
@@ -42,7 +44,7 @@ export function CartPage() {
   return (
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app">
-        <h1 className="mb-10 font-heading text-3xl font-bold text-ink">Shopping Cart</h1>
+        <h1 className="mb-10 font-heading text-3xl font-bold text-ink">{t('shoppingCart')}</h1>
 
         <div className="grid gap-10 lg:grid-cols-[1fr_380px]">
           <div className="flex flex-col gap-4">
@@ -85,7 +87,7 @@ export function CartPage() {
           </div>
 
           <div className="h-fit rounded-2xl border border-ink/8 bg-white p-6 shadow-card lg:sticky lg:top-28">
-            <h3 className="mb-5 font-heading text-lg font-bold text-ink">Order Summary</h3>
+            <h3 className="mb-5 font-heading text-lg font-bold text-ink">{t('orderSummary')}</h3>
 
             <div className="mb-5">
               <div className="flex gap-2">
@@ -94,18 +96,18 @@ export function CartPage() {
                   <input
                     value={coupon}
                     onChange={(e) => setCoupon(e.target.value)}
-                    placeholder="Coupon code (try FOLIO15)"
+                    placeholder={t('couponPlaceholder')}
                     className="w-full rounded-full border border-ink/10 py-2.5 pl-9 pr-3 text-sm outline-none focus:border-primary"
                   />
                 </div>
                 <button onClick={applyCoupon} className="rounded-full bg-ink px-4 text-sm font-semibold text-white hover:bg-primary">
-                  Apply
+                  {t('apply')}
                 </button>
               </div>
               <AnimatePresence>
                 {applied && (
                   <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} className="mt-2 text-xs font-medium text-success">
-                    Coupon "{applied}" applied — 15% off!
+                    {t('couponLabel')} "{applied}" {t('couponApplied')}
                   </motion.p>
                 )}
                 {couponError && (
@@ -118,27 +120,27 @@ export function CartPage() {
 
             <div className="flex flex-col gap-3 border-t border-ink/8 pt-5 text-sm">
               <div className="flex justify-between text-ink-soft">
-                <span>Subtotal</span>
+                <span>{t('subtotal')}</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-success">
-                  <span>Discount</span>
+                  <span>{t('discount')}</span>
                   <span>−{formatPrice(discount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-ink-soft">
-                <span>Shipping</span>
-                <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
+                <span>{t('shipping')}</span>
+                <span>{shipping === 0 ? t('free') : formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between border-t border-ink/8 pt-3 font-heading text-lg font-bold text-ink">
-                <span>Total</span>
+                <span>{t('total')}</span>
                 <span>{formatPrice(total)}</span>
               </div>
             </div>
 
             <Button className="mt-6 w-full" size="lg" onClick={() => navigate('/checkout')}>
-              Proceed to Checkout <ArrowRight size={18} />
+              {t('proceedToCheckout')} <ArrowRight size={18} />
             </Button>
           </div>
         </div>

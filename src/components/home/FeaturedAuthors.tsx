@@ -1,12 +1,14 @@
 import { motion } from 'framer-motion'
 import { authors } from '@/data/authors'
 import { SectionHeading } from './SectionHeading'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function FeaturedAuthors() {
+  const { t } = useLanguage()
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="container-app">
-        <SectionHeading eyebrow="Meet the Voices" title="Featured Authors" subtitle="The storytellers behind your favorite books." />
+        <SectionHeading eyebrow={t('authorsEyebrow')} title={t('authorsTitle')} subtitle={t('authorsSubtitle')} />
         <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-6">
           {authors.map((a, i) => (
             <motion.div
@@ -21,7 +23,7 @@ export function FeaturedAuthors() {
                 <img src={a.photo} alt={a.name} className="h-full w-full object-cover" />
               </div>
               <p className="font-heading text-sm font-semibold text-ink">{a.name}</p>
-              <p className="text-xs text-ink-muted">{a.bookCount} books</p>
+              <p className="text-xs text-ink-muted">{a.bookCount} {t('booksSuffix')}</p>
             </motion.div>
           ))}
         </div>

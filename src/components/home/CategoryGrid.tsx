@@ -2,11 +2,13 @@ import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { categories } from '@/data/categories'
 import { SectionHeading } from './SectionHeading'
+import { useLanguage } from '@/context/LanguageContext'
 
 export function CategoryGrid() {
+  const { t } = useLanguage()
   return (
     <section className="container-app py-16 sm:py-20">
-      <SectionHeading eyebrow="Browse" title="Featured Categories" subtitle="Find your next favorite genre." />
+      <SectionHeading eyebrow={t('categoryEyebrow')} title={t('categoryTitle')} subtitle={t('categorySubtitle')} />
       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
         {categories.map((c, i) => (
           <motion.div
@@ -27,7 +29,7 @@ export function CategoryGrid() {
               <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-4">
                 <p className="font-heading text-lg font-bold text-white">{c.name}</p>
-                <p className="text-xs text-white/70">{c.bookCount.toLocaleString()} books</p>
+                <p className="text-xs text-white/70">{c.bookCount.toLocaleString()} {t('booksSuffix')}</p>
               </div>
             </Link>
           </motion.div>

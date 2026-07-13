@@ -2,21 +2,23 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { Package, Tag, Settings, Circle } from 'lucide-react'
 import { notifications as initial } from '@/data/account'
+import { useLanguage } from '@/context/LanguageContext'
 
 const iconMap = { order: Package, offer: Tag, system: Settings }
 
 export function NotificationsPage() {
   const [items, setItems] = useState(initial)
+  const { t } = useLanguage()
 
   return (
     <div>
       <div className="mb-5 flex items-center justify-between">
-        <h2 className="font-heading text-lg font-bold text-ink">Notifications</h2>
+        <h2 className="font-heading text-lg font-bold text-ink">{t('notifications')}</h2>
         <button
           onClick={() => setItems((prev) => prev.map((n) => ({ ...n, read: true })))}
           className="text-xs font-semibold text-primary hover:underline"
         >
-          Mark all as read
+          {t('markAllRead')}
         </button>
       </div>
       <div className="flex flex-col divide-y divide-ink/8 rounded-2xl border border-ink/8 bg-white">
