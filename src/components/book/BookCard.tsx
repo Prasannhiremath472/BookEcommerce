@@ -74,7 +74,7 @@ export function BookCard({ book, onQuickView }: { book: Book; onQuickView?: (boo
         </motion.div>
       </div>
 
-      <div className="mt-4 flex flex-1 flex-col gap-1.5 px-0.5">
+      <div className="mt-4 flex flex-1 flex-col gap-1.5 rounded-xl bg-white px-3 py-3 shadow-soft">
         <span className="text-xs font-medium uppercase tracking-wide text-primary">{book.category}</span>
         <Link to={`/book/${book.id}`} className="line-clamp-2 font-heading text-[15px] font-semibold text-ink hover:text-primary">
           {book.title}

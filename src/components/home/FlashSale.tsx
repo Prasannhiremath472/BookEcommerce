@@ -58,9 +58,7 @@ export function FlashSale() {
 
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
           {deals.map((book) => (
-            <div key={book.id} className="rounded-2xl bg-white/5 p-1">
-              <BookCard book={book} />
-            </div>
+            <BookCard key={book.id} book={book} />
           ))}
         </div>
 
