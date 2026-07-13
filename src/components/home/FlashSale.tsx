@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Zap } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Zap, ChevronDown, ChevronUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { getDeals } from '@/data/books'
 import { BookCard } from '@/components/book/BookCard'
 import { Button } from '@/components/ui/Button'
 import { useLanguage } from '@/context/LanguageContext'
+
+const INITIAL_COUNT = 8
 
 function useCountdown(hours: number) {
   const [remaining, setRemaining] = useState(hours * 3600)
@@ -23,6 +25,9 @@ export function FlashSale() {
   const { h, m, s } = useCountdown(11)
   const deals = getDeals()
   const { t } = useLanguage()
+  const [expanded, setExpanded] = useState(false)
+  const visibleDeals = expanded ? deals : deals.slice(0, INITIAL_COUNT)
+  const hasMore = deals.length > INITIAL_COUNT
 
   return (
     <section className="relative overflow-hidden bg-gradient-primary py-16 sm:py-20">
@@ -57,14 +62,35 @@ export function FlashSale() {
         </div>
 
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
-          {deals.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
+          <AnimatePresence initial={false}>
+            {visibleDeals.map((book) => (
+              <motion.div
+                key={book.id}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <BookCard book={book} />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
 
-        <div className="mt-10 flex justify-center">
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          {hasMore && (
+            <Button
+              size="lg"
+              variant="ghost"
+              className="text-white hover:bg-white/10"
+              onClick={() => setExpanded((e) => !e)}
+            >
+              {expanded ? t('showLess') : t('showMore')}
+              {expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+            </Button>
+          )}
           <Link to="/shop?filter=deals">
-            <Button variant="dark" size="lg" className="bg-white text-primary hover:bg-white/90">
+            <Button size="lg" className="!bg-none !bg-white !text-primary hover:!bg-white/90">
               {t('viewAllDeals')}
             </Button>
           </Link>

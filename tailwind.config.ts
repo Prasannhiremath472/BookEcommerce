@@ -58,13 +58,13 @@ export default {
         },
       },
       fontFamily: {
-        heading: ['Poppins', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['Poppins', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'Noto Sans Devanagari', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display-xl': ['clamp(3rem, 6vw, 5.5rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
-        'display-lg': ['clamp(2.5rem, 5vw, 4.25rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
-        'display-md': ['clamp(2rem, 3.5vw, 3rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+        'display-xl': ['clamp(3rem, 6vw, 5.5rem)', { lineHeight: '1.25', letterSpacing: '-0.03em' }],
+        'display-lg': ['clamp(2.5rem, 5vw, 4.25rem)', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+        'display-md': ['clamp(2rem, 3.5vw, 3rem)', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
       },
       boxShadow: {
         soft: '0 2px 8px -2px rgba(17, 24, 39, 0.06), 0 4px 16px -4px rgba(17, 24, 39, 0.06)',

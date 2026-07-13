@@ -22,6 +22,7 @@ export function Header() {
   const { lang, setLang, t } = useLanguage()
 
   const navLinks = [
+    { label: t('navHome'), to: '/' },
     { label: t('navShop'), to: '/shop' },
     { label: t('navBestsellers'), to: '/shop?filter=bestsellers' },
     { label: t('navNewArrivals'), to: '/shop?filter=new' },

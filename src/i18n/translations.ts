@@ -2,6 +2,7 @@
 // translated here — it stays in its original source language (see src/data).
 export const translations = {
   // Header / Nav
+  navHome: { en: 'Home', mr: 'मुख्यपृष्ठ' },
   navShop: { en: 'Shop', mr: 'खरेदी' },
   navBestsellers: { en: 'Bestsellers', mr: 'बेस्टसेलर' },
   navNewArrivals: { en: 'New Arrivals', mr: 'नवीन आगमन' },
@@ -68,6 +69,8 @@ export const translations = {
   flashSaleTitle: { en: 'Flash Sale', mr: 'फ्लॅश सेल' },
   flashSaleSubtitle: { en: "Limited-time deals — grab them before they're gone.", mr: 'मर्यादित काळासाठी सवलती — लवकर खरेदी करा.' },
   viewAllDeals: { en: 'View All Deals', mr: 'सर्व सवलती पाहा' },
+  showMore: { en: 'Show More', mr: 'आणखी दाखवा' },
+  showLess: { en: 'Show Less', mr: 'कमी दाखवा' },
 
   // Newsletter
   newsletterTitle: { en: 'Get 15% Off Your First Order', mr: 'तुमच्या पहिल्या ऑर्डरवर 15% सूट मिळवा' },

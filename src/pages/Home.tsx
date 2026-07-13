@@ -4,7 +4,6 @@ import { CategoryGrid } from '@/components/home/CategoryGrid'
 import { BookRail } from '@/components/home/BookRail'
 import { FlashSale } from '@/components/home/FlashSale'
 import { WhyChooseUs } from '@/components/home/WhyChooseUs'
-import { FeaturedAuthors } from '@/components/home/FeaturedAuthors'
 import { Testimonials } from '@/components/home/Testimonials'
 import { BlogSection } from '@/components/home/BlogSection'
 import { Newsletter } from '@/components/home/Newsletter'
@@ -41,7 +40,6 @@ export function Home() {
         books={getNewArrivals().length ? getNewArrivals() : books.slice(4, 12)}
         ctaTo="/shop?filter=new"
       />
-      <FeaturedAuthors />
       <Testimonials />
       <BlogSection />
       <Newsletter />

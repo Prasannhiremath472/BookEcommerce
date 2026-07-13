@@ -52,7 +52,7 @@ export function Newsletter() {
                 placeholder={t('emailPlaceholder')}
                 className="flex-1 rounded-full bg-white/95 px-5 py-3.5 text-sm text-ink outline-none placeholder:text-ink-muted"
               />
-              <Button type="submit" variant="dark" className="bg-white text-primary hover:bg-white/90">
+              <Button type="submit" className="!bg-none !bg-white !text-primary hover:!bg-white/90">
                 {t('subscribe')}
               </Button>
             </form>

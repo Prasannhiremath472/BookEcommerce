@@ -15,5 +15,6 @@ const categoryImages: Record<string, string> = {
 
 export const categories: Category[] = (generatedCategories as Omit<Category, 'image'>[]).map((c) => ({
   ...c,
+  id: c.id.replace(/^cat-/, ''),
   image: categoryImages[c.slug] ?? '/covers/cover005.png',
 }))
