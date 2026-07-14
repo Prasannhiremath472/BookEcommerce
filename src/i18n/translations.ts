@@ -94,8 +94,8 @@ export const translations = {
   whyShippingDesc: { en: 'Free delivery on orders over ₹500, arriving in 2-3 days.', mr: '₹500 पेक्षा जास्त ऑर्डरवर मोफत डिलिव्हरी, 2-3 दिवसांत.' },
   whyPaymentsTitle: { en: 'Secure Payments', mr: 'सुरक्षित पेमेंट' },
   whyPaymentsDesc: { en: 'Bank-level encryption on every transaction, every time.', mr: 'प्रत्येक व्यवहारावर बँक-स्तरीय एन्क्रिप्शन.' },
-  whyReturnsTitle: { en: 'Easy 30-Day Returns', mr: 'सोपे 30-दिवस परतावा' },
-  whyReturnsDesc: { en: "Not the right fit? Return it hassle-free within 30 days.", mr: 'आवडले नाही? 30 दिवसांत सहज परत करा.' },
+  whyTrackingTitle: { en: 'Real-Time Order Tracking', mr: 'रिअल-टाइम ऑर्डर ट्रॅकिंग' },
+  whyTrackingDesc: { en: 'Track every order from dispatch to delivery in your account.', mr: 'तुमच्या खात्यात प्रत्येक ऑर्डर पाठवण्यापासून वितरणापर्यंत ट्रॅक करा.' },
   whySupportTitle: { en: '24/7 Support', mr: '24/7 सहाय्य' },
   whySupportDesc: { en: 'Our book experts are here around the clock to help.', mr: 'आमचे तज्ज्ञ चोवीस तास मदतीसाठी उपलब्ध आहेत.' },
 
@@ -150,7 +150,6 @@ export const translations = {
   specISBN: { en: 'ISBN', mr: 'ISBN' },
   quantity: { en: 'Quantity', mr: 'प्रमाण' },
   freeShippingOver: { en: 'Free shipping over ₹500', mr: '₹500 वर मोफत शिपिंग' },
-  easyReturns: { en: '30-day easy returns', mr: '30-दिवस सोपा परतावा' },
   secureCheckout: { en: 'Secure checkout', mr: 'सुरक्षित चेकआउट' },
   frequentlyBought: { en: 'Frequently Bought Together', mr: 'सहसा एकत्र खरेदी केलेली' },
   bundleTotal: { en: 'Bundle Total', mr: 'बंडल एकूण' },
@@ -200,6 +199,7 @@ export const translations = {
   processingPayment: { en: 'Processing Payment...', mr: 'पेमेंट प्रक्रिया सुरू आहे...' },
   placeOrder: { en: 'Place Order', mr: 'ऑर्डर द्या' },
   securePaymentNote: { en: 'Your payment is encrypted and secure.', mr: 'तुमचे पेमेंट एन्क्रिप्टेड आणि सुरक्षित आहे.' },
+  securedBy: { en: 'Secured by', mr: 'द्वारे सुरक्षित' },
 
   // Order confirmation
   orderPlacedTitle: { en: 'Order Placed Successfully!', mr: 'ऑर्डर यशस्वीरित्या दिली!' },
@@ -289,7 +289,7 @@ export const translations = {
   // Misc UI (address card, footer, checkout, quantity minus/plus, etc.)
   defaultBadge: { en: 'Default', mr: 'डीफॉल्ट' },
   toggleLanguageAria: { en: 'Toggle language', mr: 'भाषा बदला' },
-  footerAddress: { en: 'Pune, Maharashtra, India', mr: 'पुणे, महाराष्ट्र, भारत' },
+  footerAddress: { en: '[Registered Shop Address — pending]', mr: '[नोंदणीकृत दुकान पत्ता — प्रलंबित]' },
   footerCopyright: { en: '© 2026 Cosmos Edge Bookstore. All rights reserved.', mr: '© 2026 Cosmos Edge बुकस्टोअर. सर्व हक्क राखीव.' },
   cardExpiryPlaceholder: { en: 'MM / YY', mr: 'MM / YY' },
   cardCvvPlaceholder: { en: 'CVV', mr: 'CVV' },

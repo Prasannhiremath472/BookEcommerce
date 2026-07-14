@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Truck, ShieldCheck, RotateCcw, Headphones } from 'lucide-react'
+import { Truck, ShieldCheck, PackageSearch, Headphones } from 'lucide-react'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function WhyChooseUs() {
@@ -7,7 +7,7 @@ export function WhyChooseUs() {
   const perks = [
     { icon: Truck, title: t('whyShippingTitle'), desc: t('whyShippingDesc') },
     { icon: ShieldCheck, title: t('whyPaymentsTitle'), desc: t('whyPaymentsDesc') },
-    { icon: RotateCcw, title: t('whyReturnsTitle'), desc: t('whyReturnsDesc') },
+    { icon: PackageSearch, title: t('whyTrackingTitle'), desc: t('whyTrackingDesc') },
     { icon: Headphones, title: t('whySupportTitle'), desc: t('whySupportDesc') },
   ]
   return (

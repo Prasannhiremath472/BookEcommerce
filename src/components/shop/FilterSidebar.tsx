@@ -26,7 +26,7 @@ export const defaultFilters: Filters = {
   inStockOnly: false,
 }
 
-const languages = ['Marathi', 'Hindi', 'English', 'Kannada']
+const languages = ['Marathi', 'Hindi', 'English']
 const publishers = ['New Era Publishing House']
 const formats = ['Paperback']
 

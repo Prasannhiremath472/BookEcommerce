@@ -11,6 +11,7 @@ import { CartPage } from '@/pages/CartPage'
 import { Checkout } from '@/pages/Checkout'
 import { OrderConfirmation } from '@/pages/OrderConfirmation'
 import { ComingSoon } from '@/pages/ComingSoon'
+import { About } from '@/pages/About'
 import { AccountLayout } from '@/components/account/AccountLayout'
 import { Overview } from '@/pages/account/Overview'
 import { Orders } from '@/pages/account/Orders'
@@ -41,6 +42,7 @@ export default function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/order-confirmation" element={<OrderConfirmation />} />
               <Route path="/wishlist" element={<WishlistPage />} />
+              <Route path="/about" element={<About />} />
 
               <Route path="/account" element={<AccountLayout />}>
                 <Route index element={<Overview />} />

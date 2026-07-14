@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Heart, ShoppingBag, Truck, ShieldCheck, RotateCcw, Check } from 'lucide-react'
+import { Heart, ShoppingBag, Truck, ShieldCheck, Check } from 'lucide-react'
 import clsx from 'clsx'
 import { getBookById, books } from '@/data/books'
 import { ImageGallery } from '@/components/book/ImageGallery'
@@ -167,9 +167,6 @@ export function BookDetails() {
               <div className="mt-6 flex flex-col gap-3 border-t border-ink/8 pt-6 text-sm text-ink-soft">
                 <div className="flex items-center gap-2.5">
                   <Truck size={16} className="text-primary" /> {t('freeShippingOver')}
-                </div>
-                <div className="flex items-center gap-2.5">
-                  <RotateCcw size={16} className="text-primary" /> {t('easyReturns')}
                 </div>
                 <div className="flex items-center gap-2.5">
                   <ShieldCheck size={16} className="text-primary" /> {t('secureCheckout')}

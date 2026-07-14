@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CreditCard, Wallet, Landmark, ShieldCheck, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
+import { CreditCard, Landmark, ShieldCheck, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
 import clsx from 'clsx'
 import { useCart } from '@/context/CartContext'
 import { addresses as mockAddresses } from '@/data/account'
@@ -12,7 +12,7 @@ import { AddressCard } from '@/components/checkout/AddressCard'
 import { openRazorpayCheckout } from '@/lib/razorpay'
 import { useLanguage } from '@/context/LanguageContext'
 
-type PaymentMethod = 'razorpay' | 'card' | 'upi' | 'cod'
+type PaymentMethod = 'razorpay' | 'card' | 'upi'
 
 export function Checkout() {
   const { items, subtotal, closeCart, clearCart } = useCart()
@@ -52,7 +52,7 @@ export function Checkout() {
       return
     }
 
-    // Card / UPI / COD — simulate gateway processing without a backend.
+    // Card / UPI — simulate gateway processing without a backend.
     await new Promise((r) => setTimeout(r, 1400))
     setProcessing(false)
     setPlaced(true)
@@ -97,7 +97,6 @@ export function Checkout() {
                       { id: 'razorpay' as const, label: t('razorpayOption'), icon: ShieldCheck, tag: t('recommended') },
                       { id: 'card' as const, label: t('cardOption'), icon: CreditCard },
                       { id: 'upi' as const, label: t('upiOption'), icon: Landmark },
-                      { id: 'cod' as const, label: t('codOption'), icon: Wallet },
                     ].map((opt) => (
                       <button
                         key={opt.id}
@@ -214,6 +213,10 @@ export function Checkout() {
             </div>
             <div className="mt-5 flex items-center gap-2 rounded-xl bg-primary-50 p-3 text-xs text-primary">
               <ShieldCheck size={16} /> {t('securePaymentNote')}
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-ink-muted">
+              <span>{t('securedBy')}</span>
+              <img src="https://badges.razorpay.com/badge-dark.png" alt="Razorpay" className="h-6" loading="lazy" />
             </div>
           </div>
         </div>

@@ -8,15 +8,22 @@ export function Footer() {
   const columns = [
     {
       title: t('footerShop'),
-      links: [t('navBestsellers'), t('navNewArrivals'), t('navDeals'), t('footerGiftCards'), t('footerCollections')],
+      links: [
+        { label: t('navBestsellers'), to: '/shop?filter=bestsellers' },
+        { label: t('navNewArrivals'), to: '/shop?filter=new' },
+        { label: t('navDeals'), to: '/shop?filter=deals' },
+      ],
     },
     {
       title: t('footerCompany'),
-      links: [t('footerAbout'), t('footerCareers'), t('footerPress'), t('footerSustainability'), t('footerAffiliates')],
+      links: [{ label: t('footerAbout'), to: '/about' }],
     },
     {
       title: t('footerSupport'),
-      links: [t('footerHelpCenter'), t('footerShippingInfo'), t('footerReturns'), t('footerTrackOrder'), t('footerContact')],
+      links: [
+        { label: t('footerTrackOrder'), to: '/account/orders' },
+        { label: t('footerContact'), to: 'mailto:rhlraje007@gmail.com' },
+      ],
     },
   ]
 
@@ -40,10 +47,10 @@ export function Footer() {
                 <MapPin size={15} /> {t('footerAddress')}
               </div>
               <div className="flex items-center gap-2">
-                <Phone size={15} /> +91 98765 43210
+                <Phone size={15} /> +91 90282 90713
               </div>
               <div className="flex items-center gap-2">
-                <Mail size={15} /> hello@cosmosedge.com
+                <Mail size={15} /> rhlraje007@gmail.com
               </div>
             </div>
             <div className="mt-6 flex gap-3">
@@ -63,13 +70,21 @@ export function Footer() {
             <div key={col.title}>
               <h4 className="mb-4 font-heading text-sm font-semibold uppercase tracking-wide text-white/90">{col.title}</h4>
               <ul className="flex flex-col gap-2.5">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <a href="#" className="text-sm text-white/60 transition-colors hover:text-white">
-                      {l}
-                    </a>
-                  </li>
-                ))}
+                {col.links.map((l) =>
+                  l.to.startsWith('mailto:') ? (
+                    <li key={l.label}>
+                      <a href={l.to} className="text-sm text-white/60 transition-colors hover:text-white">
+                        {l.label}
+                      </a>
+                    </li>
+                  ) : (
+                    <li key={l.label}>
+                      <Link to={l.to} className="text-sm text-white/60 transition-colors hover:text-white">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
           ))}
@@ -77,11 +92,6 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
           <p className="text-xs text-white/50">{t('footerCopyright')}</p>
-          <div className="flex gap-6 text-xs text-white/50">
-            <a href="#" className="hover:text-white">{t('footerPrivacy')}</a>
-            <a href="#" className="hover:text-white">{t('footerTerms')}</a>
-            <a href="#" className="hover:text-white">{t('footerCookie')}</a>
-          </div>
         </div>
       </div>
     </footer>
