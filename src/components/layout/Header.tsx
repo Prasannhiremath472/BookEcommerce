@@ -6,6 +6,7 @@ import { categories } from '@/data/categories'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { useLanguage } from '@/context/LanguageContext'
+import { useAuth } from '@/context/AuthContext'
 import { IconButton } from '@/components/ui/IconButton'
 import { SearchOverlay } from './SearchOverlay'
 
@@ -20,6 +21,7 @@ export function Header() {
   const { itemCount, openCart } = useCart()
   const { count: wishCount } = useWishlist()
   const { lang, setLang, t } = useLanguage()
+  const { user } = useAuth()
 
   const navLinks = [
     { label: t('navHome'), to: '/' },
@@ -164,7 +166,7 @@ export function Header() {
                 </AnimatePresence>
               </div>
             </IconButton>
-            <Link to="/account">
+            <Link to={user ? '/account' : '/login'}>
               <IconButton className={transparent ? 'text-white hover:bg-white/10' : ''}>
                 <User size={19} />
               </IconButton>

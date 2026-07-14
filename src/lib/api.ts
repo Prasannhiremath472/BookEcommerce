@@ -1,0 +1,70 @@
+const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:4000'
+
+export interface AuthUser {
+  id: number
+  email: string
+  name: string | null
+}
+
+class ApiError extends Error {
+  constructor(message: string, public status: number) {
+    super(message)
+  }
+}
+
+async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  let res: Response
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    })
+  } catch {
+    throw new ApiError('Could not reach the server. Please check your connection and try again.', 0)
+  }
+
+  let data: any = null
+  try {
+    data = await res.json()
+  } catch {
+    // no body
+  }
+
+  if (!res.ok) {
+    throw new ApiError(data?.error ?? 'Something went wrong. Please try again.', res.status)
+  }
+
+  return data as T
+}
+
+export function sendOtp(email: string) {
+  return request<{ ok: true; expiresInMinutes: number }>('/api/auth/send-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  })
+}
+
+export function verifyOtp(email: string, code: string) {
+  return request<{ token: string; user: AuthUser }>('/api/auth/verify-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, code }),
+  })
+}
+
+export function fetchMe(token: string) {
+  return request<{ user: AuthUser }>('/api/auth/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export function logout(token: string) {
+  return request<{ ok: true }>('/api/auth/logout', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export { ApiError }
