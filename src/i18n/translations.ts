@@ -51,6 +51,7 @@ export const translations = {
   statTitles: { en: 'Titles', mr: 'पुस्तके' },
   statAuthors: { en: 'Authors', mr: 'लेखक' },
   statLanguages: { en: 'Languages', mr: 'भाषा' },
+  mostSelling: { en: 'Most Selling', mr: 'सर्वाधिक विक्री' },
 
   // Brand partners
   trustedBy: { en: 'Trusted by leading publishers worldwide', mr: 'आघाडीच्या प्रकाशकांचा विश्वास' },

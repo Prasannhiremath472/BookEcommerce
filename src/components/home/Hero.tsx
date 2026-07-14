@@ -5,7 +5,10 @@ import { Button } from '@/components/ui/Button'
 import { books } from '@/data/books'
 import { useLanguage } from '@/context/LanguageContext'
 
-const heroBooks = books.slice(0, 3)
+const featuredBook = books.find((b) => b.id === 'bk-156')
+const heroBooks = featuredBook
+  ? [books[0], featuredBook, books[2]].filter(Boolean)
+  : books.slice(0, 3)
 const languageCount = new Set(books.map((b) => b.language)).size
 const authorCount = new Set(books.map((b) => b.authorId)).size
 
@@ -92,11 +95,18 @@ export function Hero() {
                 animationDelay: `${i * 0.8}s`,
               }}
             >
-              <img
-                src={book.cover}
-                alt={book.title}
-                className="w-full rounded-xl shadow-lifted ring-1 ring-white/10"
-              />
+              {i === 1 && book.id === 'bk-156' && (
+                <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-lifted">
+                  {t('mostSelling')}
+                </span>
+              )}
+              <Link to={`/book/${book.id}`}>
+                <img
+                  src={book.cover}
+                  alt={book.title}
+                  className="w-full rounded-xl shadow-lifted ring-1 ring-white/10"
+                />
+              </Link>
             </motion.div>
           ))}
         </div>
