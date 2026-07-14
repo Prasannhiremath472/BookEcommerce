@@ -42,18 +42,28 @@ const books = raw.map((b, idx) => {
 
   const seed = b.page
   const isBestseller = !!b.bestseller || seed % 11 === 0
-  const isNew = seed % 13 === 0
-  const isTrending = seed % 7 === 0
-  const hasDiscount = seed % 4 === 0
-  const discountPct = 10 + (seed % 20)
-  const originalPrice = hasDiscount ? Math.round((b.price / (1 - discountPct / 100)) / 5) * 5 : undefined
+  const isNew = !!b.isNew || seed % 13 === 0
+  const isTrending = !!b.isTrending || seed % 7 === 0
+  const hasDiscount = b.originalPrice !== undefined || seed % 4 === 0
+  const discountPct = b.originalPrice !== undefined
+    ? Math.round(((b.originalPrice - b.price) / b.originalPrice) * 100)
+    : 10 + (seed % 20)
+  const originalPrice = b.originalPrice !== undefined
+    ? b.originalPrice
+    : hasDiscount
+      ? Math.round((b.price / (1 - discountPct / 100)) / 5) * 5
+      : undefined
+
+  const coverExt = fs.existsSync(path.join(__dirname, `../public/covers/cover${String(b.page).padStart(3, '0')}.jpeg`))
+    ? 'jpeg'
+    : 'png'
 
   return {
     id: `bk-${idx + 1}`,
     title: b.title,
     author: authorName,
     authorId,
-    cover: `/covers/cover${String(b.page).padStart(3, '0')}.png`,
+    cover: `/covers/cover${String(b.page).padStart(3, '0')}.${coverExt}`,
     price: b.price,
     originalPrice,
     category: cat.name,

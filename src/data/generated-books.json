@@ -3497,5 +3497,29 @@
     "pages": 126,
     "publishedYear": 2024,
     "isbn": "9781000000159"
+  },
+  {
+    "id": "bk-156",
+    "title": "IAS तुकाराम मुंढे",
+    "author": "शफी पठाण",
+    "authorId": "auth-शफी-पठाण",
+    "cover": "/covers/cover160.jpeg",
+    "price": 240,
+    "originalPrice": 250,
+    "category": "चरित्र",
+    "categoryId": "biography",
+    "format": "Paperback",
+    "language": "Marathi",
+    "publisher": "New Era Publishing House",
+    "inStock": true,
+    "stockCount": 45,
+    "isBestseller": true,
+    "isNew": false,
+    "isTrending": false,
+    "badge": "4% OFF",
+    "description": "IAS तुकाराम मुंढे यांच्या जीवनावर आधारित पुस्तक.",
+    "pages": 200,
+    "publishedYear": 2025,
+    "isbn": "9781000000160"
   }
 ]
