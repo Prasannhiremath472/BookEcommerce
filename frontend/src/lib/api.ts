@@ -40,17 +40,17 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return data as T
 }
 
-export function sendOtp(email: string) {
-  return request<{ ok: true; expiresInMinutes: number }>('/api/auth/send-otp', {
+export function signup(email: string, password: string, name?: string) {
+  return request<{ token: string; user: AuthUser }>('/api/auth/signup', {
     method: 'POST',
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, password, name }),
   })
 }
 
-export function verifyOtp(email: string, code: string) {
-  return request<{ token: string; user: AuthUser }>('/api/auth/verify-otp', {
+export function login(email: string, password: string) {
+  return request<{ token: string; user: AuthUser }>('/api/auth/login', {
     method: 'POST',
-    body: JSON.stringify({ email, code }),
+    body: JSON.stringify({ email, password }),
   })
 }
 

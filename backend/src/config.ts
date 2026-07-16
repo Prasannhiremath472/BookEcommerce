@@ -19,20 +19,6 @@ export const config = {
     database: required('DB_NAME'),
   },
 
-  mailjet: {
-    apiKey: required('MAILJET_API_KEY'),
-    apiSecret: required('MAILJET_API_SECRET'),
-    senderEmail: required('MAILJET_SENDER_EMAIL'),
-    senderName: required('MAILJET_SENDER_NAME', 'Cosmos Edge'),
-  },
-
-  otp: {
-    ttlMinutes: Number(process.env.OTP_TTL_MINUTES ?? 10),
-    length: Number(process.env.OTP_LENGTH ?? 6),
-    maxAttempts: Number(process.env.OTP_MAX_ATTEMPTS ?? 5),
-    resendCooldownSeconds: Number(process.env.OTP_RESEND_COOLDOWN_SECONDS ?? 45),
-  },
-
   razorpay: {
     keyId: required('RAZORPAY_KEY_ID'),
     keySecret: required('RAZORPAY_KEY_SECRET'),

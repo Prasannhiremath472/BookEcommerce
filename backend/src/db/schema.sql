@@ -4,23 +4,14 @@
 CREATE TABLE IF NOT EXISTS users (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
   name VARCHAR(255) NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   last_login_at TIMESTAMP NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE IF NOT EXISTS otp_codes (
-  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL,
-  code_hash CHAR(64) NOT NULL,
-  attempts TINYINT UNSIGNED NOT NULL DEFAULT 0,
-  max_attempts TINYINT UNSIGNED NOT NULL DEFAULT 5,
-  expires_at TIMESTAMP NOT NULL,
-  consumed_at TIMESTAMP NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_otp_email (email),
-  INDEX idx_otp_expires (expires_at)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- If migrating an existing database that predates password_hash, run:
+-- ALTER TABLE users ADD COLUMN password_hash VARCHAR(255) NOT NULL AFTER email;
 
 -- Sessions are stateless JWTs; this table exists only so a session can be
 -- revoked server-side (logout-everywhere, security incident) before expiry.
