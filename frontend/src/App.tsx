@@ -43,7 +43,14 @@ export default function App() {
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/book/:id" element={<BookDetails />} />
                 <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<Checkout />} />
+                <Route
+                  path="/checkout"
+                  element={
+                    <RequireAuth>
+                      <Checkout />
+                    </RequireAuth>
+                  }
+                />
                 <Route path="/order-confirmation" element={<OrderConfirmation />} />
                 <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/about" element={<About />} />

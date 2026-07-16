@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { CreditCard, Landmark, ShieldCheck, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react'
+import { CreditCard, Landmark, ShieldCheck, ArrowLeft, ArrowRight, Loader2, MapPin } from 'lucide-react'
 import clsx from 'clsx'
 import { useCart } from '@/context/CartContext'
-import { addresses as mockAddresses } from '@/data/account'
+import { useAuth } from '@/context/AuthContext'
+import { fetchAddresses, createAddress, ApiError, type ApiAddress } from '@/lib/api'
 import { formatPrice } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { StepProgress } from '@/components/checkout/StepProgress'
@@ -14,13 +15,22 @@ import { useLanguage } from '@/context/LanguageContext'
 
 type PaymentMethod = 'razorpay' | 'card' | 'upi'
 
+const emptyAddressForm = { label: '', name: '', line1: '', city: '', state: '', zip: '', phone: '' }
+
 export function Checkout() {
   const { items, subtotal, closeCart, clearCart } = useCart()
+  const { token } = useAuth()
   const navigate = useNavigate()
   const { t } = useLanguage()
   const steps = [t('stepAddress'), t('stepPayment'), t('stepReview')]
   const [step, setStep] = useState(0)
-  const [addressId, setAddressId] = useState(mockAddresses.find((a) => a.isDefault)?.id ?? mockAddresses[0]?.id)
+  const [addresses, setAddresses] = useState<ApiAddress[]>([])
+  const [addressesLoading, setAddressesLoading] = useState(true)
+  const [addressId, setAddressId] = useState<string | undefined>(undefined)
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [addressForm, setAddressForm] = useState(emptyAddressForm)
+  const [addressError, setAddressError] = useState<string | null>(null)
+  const [savingAddress, setSavingAddress] = useState(false)
   const [method, setMethod] = useState<PaymentMethod>('razorpay')
   const [processing, setProcessing] = useState(false)
   const [placed, setPlaced] = useState(false)
@@ -28,7 +38,42 @@ export function Checkout() {
 
   const shipping = subtotal > 500 || subtotal === 0 ? 0 : 49
   const total = subtotal + shipping
-  const selectedAddress = mockAddresses.find((a) => a.id === addressId)
+  const selectedAddress = addresses.find((a) => a.id === addressId)
+
+  useEffect(() => {
+    if (!token) return
+    fetchAddresses(token)
+      .then(({ addresses }) => {
+        setAddresses(addresses)
+        const preferred = addresses.find((a) => a.isDefault) ?? addresses[0]
+        if (preferred) setAddressId(preferred.id)
+        setShowAddForm(addresses.length === 0)
+      })
+      .catch(() => setShowAddForm(true))
+      .finally(() => setAddressesLoading(false))
+  }, [token])
+
+  const handleSaveAddress = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!token) return
+    setAddressError(null)
+    if (Object.values(addressForm).some((v) => !v.trim())) {
+      setAddressError(t('addAddressTitle'))
+      return
+    }
+    setSavingAddress(true)
+    try {
+      const { address } = await createAddress(token, addressForm)
+      setAddresses((prev) => [address, ...prev])
+      setAddressId(address.id)
+      setShowAddForm(false)
+      setAddressForm(emptyAddressForm)
+    } catch (err) {
+      setAddressError(err instanceof ApiError ? err.message : t('addAddressTitle'))
+    } finally {
+      setSavingAddress(false)
+    }
+  }
 
   if (items.length === 0 && !processing && !placed) {
     navigate('/cart')
@@ -78,18 +123,96 @@ export function Checkout() {
             <AnimatePresence mode="wait">
               {step === 0 && (
                 <motion.div key="address" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
-                  <h2 className="mb-5 font-heading text-lg font-bold text-ink">{t('chooseAddress')}</h2>
-                  <div className="flex flex-col gap-4">
-                    {mockAddresses.map((a) => (
-                      <AddressCard key={a.id} address={a} selected={addressId === a.id} onSelect={() => setAddressId(a.id)} />
-                    ))}
-                    <button className="rounded-2xl border-2 border-dashed border-ink/15 p-5 text-sm font-semibold text-ink-muted hover:border-primary hover:text-primary">
-                      {t('addNewAddress')}
-                    </button>
-                  </div>
-                  <Button className="mt-8" size="lg" onClick={() => setStep(1)}>
-                    {t('continueToPayment')} <ArrowRight size={18} />
-                  </Button>
+                  {addressesLoading ? (
+                    <p className="text-sm text-ink-muted">{t('loadingAddresses')}</p>
+                  ) : showAddForm ? (
+                    <>
+                      <div className="mb-5 flex items-center gap-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-50 text-primary">
+                          <MapPin size={18} />
+                        </div>
+                        <div>
+                          <h2 className="font-heading text-lg font-bold text-ink">{t('addAddressTitle')}</h2>
+                          <p className="text-sm text-ink-muted">{t('addAddressSubtitle')}</p>
+                        </div>
+                      </div>
+                      <form onSubmit={handleSaveAddress} className="grid gap-4 rounded-2xl border border-ink/8 bg-white p-5 sm:grid-cols-2">
+                        <input
+                          placeholder={t('addressLabelField')}
+                          value={addressForm.label}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, label: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary sm:col-span-2"
+                        />
+                        <input
+                          placeholder={t('fullNameField')}
+                          value={addressForm.name}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, name: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary sm:col-span-2"
+                        />
+                        <input
+                          placeholder={t('addressLine1Field')}
+                          value={addressForm.line1}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, line1: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary sm:col-span-2"
+                        />
+                        <input
+                          placeholder={t('cityField')}
+                          value={addressForm.city}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, city: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary"
+                        />
+                        <input
+                          placeholder={t('stateField')}
+                          value={addressForm.state}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, state: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary"
+                        />
+                        <input
+                          placeholder={t('zipField')}
+                          value={addressForm.zip}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, zip: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary"
+                        />
+                        <input
+                          placeholder={t('phoneField')}
+                          value={addressForm.phone}
+                          onChange={(e) => setAddressForm((f) => ({ ...f, phone: e.target.value }))}
+                          className="rounded-xl border border-ink/10 px-4 py-3 text-sm outline-none focus:border-primary"
+                        />
+
+                        {addressError && <p className="text-sm text-danger sm:col-span-2">{addressError}</p>}
+
+                        <div className="flex items-center gap-3 sm:col-span-2">
+                          <Button type="submit" size="lg" disabled={savingAddress}>
+                            {savingAddress ? t('savingAddress') : t('saveAddress')}
+                          </Button>
+                          {addresses.length > 0 && (
+                            <Button type="button" variant="outline" onClick={() => setShowAddForm(false)}>
+                              {t('back')}
+                            </Button>
+                          )}
+                        </div>
+                      </form>
+                    </>
+                  ) : (
+                    <>
+                      <h2 className="mb-5 font-heading text-lg font-bold text-ink">{t('chooseAddress')}</h2>
+                      <div className="flex flex-col gap-4">
+                        {addresses.map((a) => (
+                          <AddressCard key={a.id} address={a} selected={addressId === a.id} onSelect={() => setAddressId(a.id)} />
+                        ))}
+                        <button
+                          onClick={() => setShowAddForm(true)}
+                          className="rounded-2xl border-2 border-dashed border-ink/15 p-5 text-sm font-semibold text-ink-muted hover:border-primary hover:text-primary"
+                        >
+                          {t('addNewAddress')}
+                        </button>
+                      </div>
+                      <Button className="mt-8" size="lg" disabled={!addressId} onClick={() => setStep(1)}>
+                        {t('continueToPayment')} <ArrowRight size={18} />
+                      </Button>
+                    </>
+                  )}
                 </motion.div>
               )}
 

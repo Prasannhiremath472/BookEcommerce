@@ -93,4 +93,32 @@ export function verifyRazorpayPayment(payload: VerifyPaymentPayload) {
   })
 }
 
+export interface ApiAddress {
+  id: string
+  label: string
+  name: string
+  line1: string
+  city: string
+  state: string
+  zip: string
+  phone: string
+  isDefault: boolean
+}
+
+export type NewAddress = Omit<ApiAddress, 'id' | 'isDefault'> & { isDefault?: boolean }
+
+export function fetchAddresses(token: string) {
+  return request<{ addresses: ApiAddress[] }>('/api/addresses', {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+}
+
+export function createAddress(token: string, address: NewAddress) {
+  return request<{ address: ApiAddress }>('/api/addresses', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(address),
+  })
+}
+
 export { ApiError }

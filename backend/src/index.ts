@@ -3,6 +3,7 @@ import cors from 'cors'
 import { config } from './config.js'
 import { authRouter } from './routes/auth.js'
 import { paymentsRouter } from './routes/payments.js'
+import { addressesRouter } from './routes/addresses.js'
 
 const app = express()
 
@@ -12,6 +13,7 @@ app.use(express.json())
 app.get('/health', (_req, res) => res.json({ ok: true }))
 app.use('/api/auth', authRouter)
 app.use('/api', paymentsRouter)
+app.use('/api/addresses', addressesRouter)
 
 app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
   console.error(err)
