@@ -24,6 +24,7 @@ export function Checkout() {
   const [method, setMethod] = useState<PaymentMethod>('razorpay')
   const [processing, setProcessing] = useState(false)
   const [placed, setPlaced] = useState(false)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
 
   const shipping = subtotal > 500 || subtotal === 0 ? 0 : 49
   const total = subtotal + shipping
@@ -36,6 +37,7 @@ export function Checkout() {
 
   const placeOrder = async () => {
     setProcessing(true)
+    setPaymentError(null)
     closeCart()
 
     if (method === 'razorpay') {
@@ -48,6 +50,8 @@ export function Checkout() {
         setPlaced(true)
         clearCart()
         navigate('/order-confirmation', { state: { paymentId: result.paymentId, total } })
+      } else {
+        setPaymentError(result.error ?? t('paymentFailed'))
       }
       return
     }
@@ -175,6 +179,10 @@ export function Checkout() {
                       ))}
                     </div>
                   </div>
+
+                  {paymentError && (
+                    <p className="mt-4 rounded-xl bg-danger/10 px-4 py-3 text-sm font-medium text-danger">{paymentError}</p>
+                  )}
 
                   <div className="mt-8 flex gap-3">
                     <Button variant="outline" onClick={() => setStep(1)}>

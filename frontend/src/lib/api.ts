@@ -67,4 +67,30 @@ export function logout(token: string) {
   })
 }
 
+export interface RazorpayOrder {
+  order_id: string
+  amount: number
+  currency: string
+}
+
+export function createRazorpayOrder(amountInPaise: number, receipt?: string) {
+  return request<RazorpayOrder>('/api/create-order', {
+    method: 'POST',
+    body: JSON.stringify({ amount: amountInPaise, currency: 'INR', receipt }),
+  })
+}
+
+export interface VerifyPaymentPayload {
+  razorpay_order_id: string
+  razorpay_payment_id: string
+  razorpay_signature: string
+}
+
+export function verifyRazorpayPayment(payload: VerifyPaymentPayload) {
+  return request<{ verified: boolean; orderId: string; paymentId: string }>('/api/verify-payment', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export { ApiError }

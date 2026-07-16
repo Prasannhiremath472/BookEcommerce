@@ -198,6 +198,7 @@ export const translations = {
   deliveringTo: { en: 'Delivering To', mr: 'डिलिव्हरी पत्ता' },
   items: { en: 'Items', mr: 'वस्तू' },
   processingPayment: { en: 'Processing Payment...', mr: 'पेमेंट प्रक्रिया सुरू आहे...' },
+  paymentFailed: { en: 'Payment failed. Please try again.', mr: 'पेमेंट अयशस्वी झाले. कृपया पुन्हा प्रयत्न करा.' },
   placeOrder: { en: 'Place Order', mr: 'ऑर्डर द्या' },
   securePaymentNote: { en: 'Your payment is encrypted and secure.', mr: 'तुमचे पेमेंट एन्क्रिप्टेड आणि सुरक्षित आहे.' },
   securedBy: { en: 'Secured by', mr: 'द्वारे सुरक्षित' },

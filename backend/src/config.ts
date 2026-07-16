@@ -32,4 +32,9 @@ export const config = {
     maxAttempts: Number(process.env.OTP_MAX_ATTEMPTS ?? 5),
     resendCooldownSeconds: Number(process.env.OTP_RESEND_COOLDOWN_SECONDS ?? 45),
   },
+
+  razorpay: {
+    keyId: required('RAZORPAY_KEY_ID'),
+    keySecret: required('RAZORPAY_KEY_SECRET'),
+  },
 }
