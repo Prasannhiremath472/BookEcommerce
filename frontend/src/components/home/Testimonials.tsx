@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Quote } from 'lucide-react'
-import { books } from '@/data/books'
+import { books, withFeaturedFirst } from '@/data/books'
 import { SectionHeading } from './SectionHeading'
 import { useLanguage } from '@/context/LanguageContext'
 
-const picks = books.filter((b) => b.isBestseller).slice(0, 3)
+const picks = withFeaturedFirst(books.filter((b) => b.isBestseller)).slice(0, 3)
 
 export function Testimonials() {
   const { t } = useLanguage()

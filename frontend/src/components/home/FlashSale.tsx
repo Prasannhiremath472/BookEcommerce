@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Zap, ChevronDown, ChevronUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { getDeals } from '@/data/books'
+import { getDeals, withFeaturedFirst } from '@/data/books'
 import { BookCard } from '@/components/book/BookCard'
 import { Button } from '@/components/ui/Button'
 import { useLanguage } from '@/context/LanguageContext'
@@ -23,7 +23,7 @@ function useCountdown(hours: number) {
 
 export function FlashSale() {
   const { h, m, s } = useCountdown(11)
-  const deals = getDeals()
+  const deals = withFeaturedFirst(getDeals())
   const { t } = useLanguage()
   const [expanded, setExpanded] = useState(false)
   const visibleDeals = expanded ? deals : deals.slice(0, INITIAL_COUNT)

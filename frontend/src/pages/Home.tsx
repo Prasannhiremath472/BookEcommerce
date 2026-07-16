@@ -7,7 +7,7 @@ import { WhyChooseUs } from '@/components/home/WhyChooseUs'
 import { Testimonials } from '@/components/home/Testimonials'
 import { BlogSection } from '@/components/home/BlogSection'
 import { Newsletter } from '@/components/home/Newsletter'
-import { books, getBestsellers, getTrending, getNewArrivals } from '@/data/books'
+import { books, getBestsellers, getTrending, getNewArrivals, withFeaturedFirst } from '@/data/books'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function Home() {
@@ -21,7 +21,7 @@ export function Home() {
         eyebrow={t('bestsellersEyebrow')}
         title={t('bestsellersTitle')}
         subtitle={t('bestsellersSubtitle')}
-        books={getBestsellers().length ? getBestsellers() : books.slice(0, 8)}
+        books={withFeaturedFirst(getBestsellers().length ? getBestsellers() : books.slice(0, 8))}
         ctaTo="/shop?filter=bestsellers"
       />
       <FlashSale />
@@ -29,7 +29,7 @@ export function Home() {
         eyebrow={t('trendingEyebrow')}
         title={t('trendingTitle')}
         subtitle={t('trendingSubtitle')}
-        books={getTrending().length ? getTrending() : books.slice(2, 10)}
+        books={withFeaturedFirst(getTrending().length ? getTrending() : books.slice(2, 10))}
         ctaTo="/shop?filter=trending"
       />
       <WhyChooseUs />
@@ -37,7 +37,7 @@ export function Home() {
         eyebrow={t('newArrivalsEyebrow')}
         title={t('newArrivalsTitle')}
         subtitle={t('newArrivalsSubtitle')}
-        books={getNewArrivals().length ? getNewArrivals() : books.slice(4, 12)}
+        books={withFeaturedFirst(getNewArrivals().length ? getNewArrivals() : books.slice(4, 12))}
         ctaTo="/shop?filter=new"
       />
       <Testimonials />

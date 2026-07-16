@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { books } from '@/data/books'
+import { books, withFeaturedFirst } from '@/data/books'
 import { SectionHeading } from './SectionHeading'
 import { useLanguage } from '@/context/LanguageContext'
 
-const spotlight = books.filter((b) => b.isBestseller).slice(0, 3)
+const spotlight = withFeaturedFirst(books.filter((b) => b.isBestseller)).slice(0, 3)
 
 export function BlogSection() {
   const { t } = useLanguage()

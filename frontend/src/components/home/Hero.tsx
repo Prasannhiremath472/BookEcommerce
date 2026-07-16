@@ -6,9 +6,7 @@ import { books } from '@/data/books'
 import { useLanguage } from '@/context/LanguageContext'
 
 const featuredBook = books.find((b) => b.id === 'bk-156')
-const heroBooks = featuredBook
-  ? [books[0], featuredBook, books[2]].filter(Boolean)
-  : books.slice(0, 3)
+const heroBooks = featuredBook ? [featuredBook, featuredBook, featuredBook] : books.slice(0, 3)
 const languageCount = new Set(books.map((b) => b.language)).size
 const authorCount = new Set(books.map((b) => b.authorId)).size
 
@@ -84,7 +82,7 @@ export function Hero() {
         <div className="relative hidden h-[520px] items-center justify-center lg:flex">
           {heroBooks.map((book, i) => (
             <motion.div
-              key={book.id}
+              key={`${book.id}-${i}`}
               initial={{ opacity: 0, y: 60, rotate: -6 + i * 6 }}
               animate={{ opacity: 1, y: 0, rotate: -6 + i * 6 }}
               transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
@@ -95,7 +93,7 @@ export function Hero() {
                 animationDelay: `${i * 0.8}s`,
               }}
             >
-              {i === 1 && book.id === 'bk-156' && (
+              {book.id === 'bk-156' && (
                 <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-lifted">
                   {t('mostSelling')}
                 </span>
