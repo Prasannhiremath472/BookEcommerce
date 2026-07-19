@@ -1,14 +1,14 @@
 import { Heart } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { books } from '@/data/books'
 import { useWishlist } from '@/context/WishlistContext'
+import { useBooksByIds } from '@/hooks/useBooksByIds'
 import { BookCard } from '@/components/book/BookCard'
 import { Button } from '@/components/ui/Button'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function WishlistPage() {
   const { ids } = useWishlist()
-  const items = books.filter((b) => ids.has(b.id))
+  const { books: items } = useBooksByIds(Array.from(ids))
   const { t } = useLanguage()
 
   return (

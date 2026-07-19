@@ -1,23 +1,33 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { books } from '@/data/books'
+import { fetchBooks } from '@/lib/api'
 import { formatPrice } from '@/lib/utils'
 import { useLanguage } from '@/context/LanguageContext'
+import type { Book } from '@/data/types'
 
 export function SearchOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [query, setQuery] = useState('')
+  const [results, setResults] = useState<Book[]>([])
   const { t } = useLanguage()
 
   useEffect(() => {
     if (!open) setQuery('')
   }, [open])
 
-  const results = useMemo(() => {
-    if (!query.trim()) return []
-    const q = query.toLowerCase()
-    return books.filter((b) => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q)).slice(0, 6)
+  useEffect(() => {
+    const trimmed = query.trim()
+    if (!trimmed) {
+      setResults([])
+      return
+    }
+    const id = setTimeout(() => {
+      fetchBooks({ search: trimmed, pageSize: 6 })
+        .then((res) => setResults(res.books))
+        .catch(() => setResults([]))
+    }, 250)
+    return () => clearTimeout(id)
   }, [query])
 
   return (

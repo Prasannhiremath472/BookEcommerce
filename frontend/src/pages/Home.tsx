@@ -7,11 +7,16 @@ import { WhyChooseUs } from '@/components/home/WhyChooseUs'
 import { Testimonials } from '@/components/home/Testimonials'
 import { BlogSection } from '@/components/home/BlogSection'
 import { Newsletter } from '@/components/home/Newsletter'
-import { books, getBestsellers, getTrending, getNewArrivals, withFeaturedFirst } from '@/data/books'
+import { useBooks } from '@/hooks/useBooks'
+import { withFeaturedFirst } from '@/lib/catalogHelpers'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function Home() {
   const { t } = useLanguage()
+  const { books: bestsellers } = useBooks({ filter: 'bestsellers', pageSize: 8 })
+  const { books: trending } = useBooks({ filter: 'trending', pageSize: 8 })
+  const { books: newArrivals } = useBooks({ filter: 'new', pageSize: 8 })
+
   return (
     <>
       <Hero />
@@ -21,7 +26,7 @@ export function Home() {
         eyebrow={t('bestsellersEyebrow')}
         title={t('bestsellersTitle')}
         subtitle={t('bestsellersSubtitle')}
-        books={withFeaturedFirst(getBestsellers().length ? getBestsellers() : books.slice(0, 8))}
+        books={withFeaturedFirst(bestsellers)}
         ctaTo="/shop?filter=bestsellers"
       />
       <FlashSale />
@@ -29,7 +34,7 @@ export function Home() {
         eyebrow={t('trendingEyebrow')}
         title={t('trendingTitle')}
         subtitle={t('trendingSubtitle')}
-        books={withFeaturedFirst(getTrending().length ? getTrending() : books.slice(2, 10))}
+        books={withFeaturedFirst(trending)}
         ctaTo="/shop?filter=trending"
       />
       <WhyChooseUs />
@@ -37,7 +42,7 @@ export function Home() {
         eyebrow={t('newArrivalsEyebrow')}
         title={t('newArrivalsTitle')}
         subtitle={t('newArrivalsSubtitle')}
-        books={withFeaturedFirst(getNewArrivals().length ? getNewArrivals() : books.slice(4, 12))}
+        books={withFeaturedFirst(newArrivals)}
         ctaTo="/shop?filter=new"
       />
       <Testimonials />

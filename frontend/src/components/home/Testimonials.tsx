@@ -1,14 +1,15 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { Quote } from 'lucide-react'
-import { books, withFeaturedFirst } from '@/data/books'
+import { useBooks } from '@/hooks/useBooks'
+import { withFeaturedFirst } from '@/lib/catalogHelpers'
 import { SectionHeading } from './SectionHeading'
 import { useLanguage } from '@/context/LanguageContext'
 
-const picks = withFeaturedFirst(books.filter((b) => b.isBestseller)).slice(0, 3)
-
 export function Testimonials() {
   const { t } = useLanguage()
+  const { books: bestsellers } = useBooks({ filter: 'bestsellers', pageSize: 10 })
+  const picks = withFeaturedFirst(bestsellers).slice(0, 3)
   return (
     <section className="container-app py-16 sm:py-20">
       <SectionHeading eyebrow={t('editorPicksEyebrow')} title={t('editorPicksTitle')} subtitle={t('editorPicksSubtitle')} />

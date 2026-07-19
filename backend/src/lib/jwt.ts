@@ -5,6 +5,7 @@ export interface AuthTokenPayload {
   userId: number
   email: string
   tokenId: string
+  role?: 'customer' | 'admin'
 }
 
 export function signAuthToken(payload: AuthTokenPayload): string {

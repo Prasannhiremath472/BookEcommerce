@@ -1,17 +1,25 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
-import { books } from '@/data/books'
+import { useBook } from '@/hooks/useBook'
+import { fetchCatalogStats } from '@/lib/api'
 import { useLanguage } from '@/context/LanguageContext'
 
-const featuredBook = books.find((b) => b.id === 'bk-156')
-const heroBooks = featuredBook ? [featuredBook, featuredBook, featuredBook] : books.slice(0, 3)
-const languageCount = new Set(books.map((b) => b.language)).size
-const authorCount = new Set(books.map((b) => b.authorId)).size
+const FEATURED_ID = 'bk-156'
 
 export function Hero() {
   const { t } = useLanguage()
+  const { book: featuredBook } = useBook(FEATURED_ID)
+  const [stats, setStats] = useState({ totalBooks: 0, totalAuthors: 0, totalLanguages: 0 })
+
+  useEffect(() => {
+    fetchCatalogStats().then(setStats).catch(() => {})
+  }, [])
+
+  const heroBooks = featuredBook ? [featuredBook, featuredBook, featuredBook] : []
+
   return (
     <section className="relative overflow-hidden bg-gradient-dark pb-24 pt-40 sm:pb-32 sm:pt-48">
       <div className="pointer-events-none absolute inset-0 bg-gradient-radial-soft" />
@@ -67,9 +75,9 @@ export function Hero() {
             className="mt-14 flex gap-10"
           >
             {[
-              [`${books.length}+`, t('statTitles')],
-              [`${authorCount}+`, t('statAuthors')],
-              [`${languageCount}`, t('statLanguages')],
+              [`${stats.totalBooks}+`, t('statTitles')],
+              [`${stats.totalAuthors}+`, t('statAuthors')],
+              [`${stats.totalLanguages}`, t('statLanguages')],
             ].map(([stat, label]) => (
               <div key={label}>
                 <p className="font-heading text-3xl font-bold text-white">{stat}</p>
@@ -93,7 +101,7 @@ export function Hero() {
                 animationDelay: `${i * 0.8}s`,
               }}
             >
-              {book.id === 'bk-156' && (
+              {book.id === FEATURED_ID && (
                 <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-lifted">
                   {t('mostSelling')}
                 </span>

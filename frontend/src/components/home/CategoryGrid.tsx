@@ -1,11 +1,12 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { categories } from '@/data/categories'
 import { SectionHeading } from './SectionHeading'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCatalog } from '@/context/CatalogContext'
 
 export function CategoryGrid() {
   const { t } = useLanguage()
+  const { categories } = useCatalog()
   return (
     <section className="container-app py-16 sm:py-20">
       <SectionHeading eyebrow={t('categoryEyebrow')} title={t('categoryTitle')} subtitle={t('categorySubtitle')} />

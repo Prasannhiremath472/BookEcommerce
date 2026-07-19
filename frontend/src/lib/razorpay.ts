@@ -2,7 +2,7 @@
 // and verifies the HMAC-SHA256 payment signature after the modal succeeds. The key secret never
 // reaches this file — only the public key id (VITE_RAZORPAY_KEY_ID) is used client-side.
 
-import { createRazorpayOrder, verifyRazorpayPayment, ApiError } from './api'
+import { createRazorpayOrder, verifyRazorpayPayment, ApiError, type VerifyPaymentOrderItem, type VerifyPaymentAddress } from './api'
 
 const RAZORPAY_SCRIPT_SRC = 'https://checkout.razorpay.com/v1/checkout.js'
 const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID as string | undefined
@@ -30,6 +30,7 @@ export interface RazorpayResult {
   paymentId: string
   method: string
   error?: string
+  orderId?: string
 }
 
 export async function openRazorpayCheckout(opts: {
@@ -38,6 +39,11 @@ export async function openRazorpayCheckout(opts: {
   description?: string
   email?: string
   contact?: string
+  userId?: number
+  items?: VerifyPaymentOrderItem[]
+  address?: VerifyPaymentAddress
+  subtotal?: number
+  shipping?: number
 }): Promise<RazorpayResult> {
   if (!RAZORPAY_KEY_ID) {
     return { success: false, paymentId: '', method: 'razorpay', error: 'Payment gateway is not configured.' }
@@ -76,9 +82,15 @@ export async function openRazorpayCheckout(opts: {
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
+            userId: opts.userId,
+            items: opts.items,
+            address: opts.address,
+            subtotal: opts.subtotal,
+            shipping: opts.shipping,
+            total: opts.amount,
           })
           if (result.verified) {
-            resolve({ success: true, paymentId: result.paymentId, method: 'razorpay' })
+            resolve({ success: true, paymentId: result.paymentId, method: 'razorpay', orderId: result.order?.id })
           } else {
             resolve({ success: false, paymentId: '', method: 'razorpay', error: 'Payment could not be verified.' })
           }

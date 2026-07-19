@@ -1,12 +1,16 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { BookOpen, Mail, Phone, MapPin } from 'lucide-react'
-import { books } from '@/data/books'
+import { fetchCatalogStats } from '@/lib/api'
 import { useLanguage } from '@/context/LanguageContext'
 
 export function About() {
   const { t } = useLanguage()
-  const languageCount = new Set(books.map((b) => b.language)).size
-  const authorCount = new Set(books.map((b) => b.authorId)).size
+  const [stats, setStats] = useState({ totalBooks: 0, totalAuthors: 0, totalLanguages: 0 })
+
+  useEffect(() => {
+    fetchCatalogStats().then(setStats).catch(() => {})
+  }, [])
 
   return (
     <div className="bg-surface pb-24 pt-32">
@@ -20,9 +24,9 @@ export function About() {
 
           <div className="mt-8 grid grid-cols-3 gap-4">
             {[
-              [`${books.length}+`, t('statTitles')],
-              [`${authorCount}+`, t('statAuthors')],
-              [`${languageCount}`, t('statLanguages')],
+              [`${stats.totalBooks}+`, t('statTitles')],
+              [`${stats.totalAuthors}+`, t('statAuthors')],
+              [`${stats.totalLanguages}`, t('statLanguages')],
             ].map(([stat, label]) => (
               <div key={label} className="rounded-2xl border border-ink/8 bg-white p-5 text-center shadow-soft">
                 <p className="font-heading text-2xl font-bold text-ink">{stat}</p>

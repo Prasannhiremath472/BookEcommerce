@@ -19,7 +19,7 @@ const emptyAddressForm = { label: '', name: '', line1: '', city: '', state: '', 
 
 export function Checkout() {
   const { items, subtotal, closeCart, clearCart } = useCart()
-  const { token } = useAuth()
+  const { token, user } = useAuth()
   const navigate = useNavigate()
   const { t } = useLanguage()
   const steps = [t('stepAddress'), t('stepPayment'), t('stepReview')]
@@ -89,12 +89,34 @@ export function Checkout() {
       const result = await openRazorpayCheckout({
         amount: total,
         description: `${t('cosmosOrderNote')} ${items.length} ${t('items').toLowerCase()}`,
+        email: user?.email,
+        userId: user?.id,
+        items: items.map((item) => ({
+          bookId: item.book.id,
+          title: item.book.title,
+          cover: item.book.cover,
+          price: item.book.price,
+          quantity: item.quantity,
+        })),
+        address: selectedAddress
+          ? {
+              label: selectedAddress.label,
+              name: selectedAddress.name,
+              line1: selectedAddress.line1,
+              city: selectedAddress.city,
+              state: selectedAddress.state,
+              zip: selectedAddress.zip,
+              phone: selectedAddress.phone,
+            }
+          : undefined,
+        subtotal,
+        shipping,
       })
       setProcessing(false)
       if (result.success) {
         setPlaced(true)
         clearCart()
-        navigate('/order-confirmation', { state: { paymentId: result.paymentId, total } })
+        navigate('/order-confirmation', { state: { orderId: result.orderId, paymentId: result.paymentId, total } })
       } else {
         setPaymentError(result.error ?? t('paymentFailed'))
       }

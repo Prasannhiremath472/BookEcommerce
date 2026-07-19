@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { books, withFeaturedFirst } from '@/data/books'
+import { useBooks } from '@/hooks/useBooks'
+import { withFeaturedFirst } from '@/lib/catalogHelpers'
 import { SectionHeading } from './SectionHeading'
 import { useLanguage } from '@/context/LanguageContext'
 
-const spotlight = withFeaturedFirst(books.filter((b) => b.isBestseller)).slice(0, 3)
-
 export function BlogSection() {
   const { t } = useLanguage()
+  const { books: bestsellers } = useBooks({ filter: 'bestsellers', pageSize: 10 })
+  const spotlight = withFeaturedFirst(bestsellers).slice(0, 3)
   return (
     <section className="bg-white py-16 sm:py-20">
       <div className="container-app">

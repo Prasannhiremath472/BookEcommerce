@@ -1,9 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Heart, ShoppingBag, Truck, ShieldCheck, Check } from 'lucide-react'
+import { Heart, ShoppingBag, Truck, ShieldCheck, Check, Loader2 } from 'lucide-react'
 import clsx from 'clsx'
-import { getBookById, books } from '@/data/books'
+import { useBook } from '@/hooks/useBook'
+import { useBooks } from '@/hooks/useBooks'
+import { useBooksByIds } from '@/hooks/useBooksByIds'
 import { ImageGallery } from '@/components/book/ImageGallery'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -19,7 +21,7 @@ type Tab = 'description' | 'specs'
 
 export function BookDetails() {
   const { id } = useParams()
-  const book = id ? getBookById(id) : undefined
+  const { book, isLoading } = useBook(id)
   const { addItem } = useCart()
   const { toggle, has } = useWishlist()
   const { t } = useLanguage()
@@ -27,19 +29,23 @@ export function BookDetails() {
   const [tab, setTab] = useState<Tab>('description')
   const recentIds = useRecentlyViewed(book?.id)
 
-  const related = useMemo(
-    () => (book ? books.filter((b) => b.categoryId === book.categoryId && b.id !== book.id).slice(0, 4) : []),
-    [book],
-  )
-  const recommended = useMemo(
-    () => (book ? books.filter((b) => b.id !== book.id).sort(() => 0.5 - Math.random()).slice(0, 4) : []),
-    [book],
-  )
-  const frequentlyBought = useMemo(() => (book ? books.filter((b) => b.id !== book.id).slice(0, 2) : []), [book])
-  const recentlyViewed = useMemo(
-    () => books.filter((b) => recentIds.includes(b.id) && b.id !== book?.id).slice(0, 4),
-    [recentIds, book],
-  )
+  const { books: categoryPool } = useBooks({ category: book?.categoryId, pageSize: 8 })
+  const related = book ? categoryPool.filter((b) => b.id !== book.id).slice(0, 4) : []
+
+  const { books: recommendedPool } = useBooks({ pageSize: 8 })
+  const recommended = book ? recommendedPool.filter((b) => b.id !== book.id).slice(0, 4) : []
+  const frequentlyBought = book ? recommendedPool.filter((b) => b.id !== book.id).slice(0, 2) : []
+
+  const recentViewIds = recentIds.filter((rid) => rid !== book?.id)
+  const { books: recentlyViewed } = useBooksByIds(recentViewIds)
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center bg-surface pt-32">
+        <Loader2 size={24} className="animate-spin text-ink-muted" />
+      </div>
+    )
+  }
 
   if (!book) return <ComingSoon title={t('bookNotFound')} />
 

@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LayoutGrid, List, SlidersHorizontal, X } from 'lucide-react'
-import { books } from '@/data/books'
-import { categories } from '@/data/categories'
+import { useBooks } from '@/hooks/useBooks'
+import { useCatalog } from '@/context/CatalogContext'
 import { BookCard } from '@/components/book/BookCard'
 import { BookListItem } from '@/components/book/BookListItem'
 import { FilterSidebar, defaultFilters, type Filters } from '@/components/shop/FilterSidebar'
@@ -13,21 +13,18 @@ import type { Book } from '@/data/types'
 import { useLanguage } from '@/context/LanguageContext'
 
 type SortKey = 'featured' | 'price-asc' | 'price-desc' | 'newest'
+const PAGE_SIZE = 24
 
 export function Shop() {
   const [searchParams] = useSearchParams()
   const { t } = useLanguage()
+  const { categories } = useCatalog()
   const [filters, setFilters] = useState<Filters>(defaultFilters)
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [sort, setSort] = useState<SortKey>('featured')
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [page, setPage] = useState(1)
   const [quickViewBook, setQuickViewBook] = useState<Book | null>(null)
-
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 500)
-    return () => clearTimeout(t)
-  }, [])
 
   useEffect(() => {
     const categorySlug = searchParams.get('category')
@@ -35,40 +32,27 @@ export function Shop() {
       const cat = categories.find((c) => c.slug === categorySlug)
       if (cat) setFilters((f) => ({ ...f, categories: [cat.id] }))
     }
-  }, [searchParams])
+  }, [searchParams, categories])
 
-  const filterLabel = searchParams.get('filter')
+  const filterLabel = searchParams.get('filter') as 'bestsellers' | 'new' | 'trending' | 'deals' | null
 
-  const filtered = useMemo(() => {
-    let result = books.slice()
-
-    if (filterLabel === 'bestsellers') result = result.filter((b) => b.isBestseller)
-    if (filterLabel === 'new') result = result.filter((b) => b.isNew)
-    if (filterLabel === 'trending') result = result.filter((b) => b.isTrending)
-    if (filterLabel === 'deals') result = result.filter((b) => b.originalPrice)
-
-    if (filters.categories.length) result = result.filter((b) => filters.categories.includes(b.categoryId))
-    if (filters.authors.length) result = result.filter((b) => filters.authors.includes(b.authorId))
-    if (filters.languages.length) result = result.filter((b) => filters.languages.includes(b.language))
-    if (filters.publishers.length) result = result.filter((b) => filters.publishers.includes(b.publisher))
-    if (filters.formats.length) result = result.filter((b) => filters.formats.includes(b.format))
-    if (filters.inStockOnly) result = result.filter((b) => b.inStock)
-    result = result.filter((b) => b.price <= filters.maxPrice)
-
-    switch (sort) {
-      case 'price-asc':
-        result.sort((a, b) => a.price - b.price)
-        break
-      case 'price-desc':
-        result.sort((a, b) => b.price - a.price)
-        break
-      case 'newest':
-        result.sort((a, b) => b.publishedYear - a.publishedYear)
-        break
-    }
-
-    return result
+  useEffect(() => {
+    setPage(1)
   }, [filters, sort, filterLabel])
+
+  const { books: filtered, total, isLoading } = useBooks({
+    page,
+    pageSize: PAGE_SIZE,
+    category: filters.categories[0],
+    author: filters.authors[0],
+    language: filters.languages[0],
+    publisher: filters.publishers[0],
+    format: filters.formats[0] as any,
+    inStock: filters.inStockOnly || undefined,
+    maxPrice: filters.maxPrice,
+    filter: filterLabel ?? undefined,
+    sort,
+  })
 
   const pageTitle = filterLabel
     ? filterLabel.charAt(0).toUpperCase() + filterLabel.slice(1)
@@ -76,13 +60,15 @@ export function Shop() {
       ? categories.find((c) => c.slug === searchParams.get('category'))?.name
       : t('allBooks')
 
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE))
+
   return (
     <div className="bg-surface pb-24 pt-32">
       <div className="container-app">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-10">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">{t('shopEyebrow')}</p>
           <h1 className="mt-2 text-display-md font-heading font-bold text-ink">{pageTitle}</h1>
-          <p className="mt-2 text-ink-muted">{filtered.length} {t('booksFound')}</p>
+          <p className="mt-2 text-ink-muted">{total} {t('booksFound')}</p>
         </motion.div>
 
         <div className="flex gap-10">
@@ -128,7 +114,7 @@ export function Shop() {
               </div>
             </div>
 
-            {loading ? (
+            {isLoading ? (
               <div className="grid grid-cols-2 gap-6 sm:grid-cols-3 xl:grid-cols-4">
                 {Array.from({ length: 8 }).map((_, i) => (
                   <SkeletonCard key={i} />
@@ -150,6 +136,26 @@ export function Shop() {
                 {filtered.map((book) => (
                   <BookListItem key={book.id} book={book} />
                 ))}
+              </div>
+            )}
+
+            {!isLoading && totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center gap-2">
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page === 1}
+                  className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium disabled:opacity-40"
+                >
+                  Prev
+                </button>
+                <span className="text-sm text-ink-muted">Page {page} of {totalPages}</span>
+                <button
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page === totalPages}
+                  className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium disabled:opacity-40"
+                >
+                  Next
+                </button>
               </div>
             )}
           </div>

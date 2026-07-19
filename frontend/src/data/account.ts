@@ -1,5 +1,4 @@
 import type { Address, Order, WalletTransaction, Notification } from './types'
-import { books } from './books'
 
 export const addresses: Address[] = [
   {
@@ -25,56 +24,24 @@ export const addresses: Address[] = [
   },
 ]
 
-const pick = (i: number) => books[i % books.length]
-
+// Placeholder items — real orders now come from useOrders() (see hooks/useOrders.ts).
+// This mock list only backs Overview.tsx's recent-orders widget and
+// InvoicesPage.tsx, which weren't part of the orders migration.
 export const orders: Order[] = [
   {
     id: 'FOL-100234',
     date: 'Jul 2, 2026',
     status: 'Delivered',
     items: [
-      { bookId: pick(0).id, title: pick(0).title, cover: pick(0).cover, price: pick(0).price, quantity: 1 },
-      { bookId: pick(2).id, title: pick(2).title, cover: pick(2).cover, price: pick(2).price, quantity: 2 },
+      { bookId: 'bk-1', title: 'रावण राजा राक्षसांचा', cover: '/covers/cover005.png', price: 450, quantity: 1 },
     ],
-    total: pick(0).price + pick(2).price * 2,
+    total: 450,
     address: 'Home — HSR Layout, Bengaluru',
     timeline: [
       { status: 'Processing', date: 'Jul 2, 2026', done: true },
       { status: 'Shipped', date: 'Jul 3, 2026', done: true },
       { status: 'Out for Delivery', date: 'Jul 5, 2026', done: true },
       { status: 'Delivered', date: 'Jul 6, 2026', done: true },
-    ],
-  },
-  {
-    id: 'FOL-100198',
-    date: 'Jun 20, 2026',
-    status: 'Out for Delivery',
-    items: [{ bookId: pick(6).id, title: pick(6).title, cover: pick(6).cover, price: pick(6).price, quantity: 1 }],
-    total: pick(6).price,
-    address: 'Office — Marathahalli, Bengaluru',
-    eta: 'Arriving Jul 14, 2026',
-    timeline: [
-      { status: 'Processing', date: 'Jun 20, 2026', done: true },
-      { status: 'Shipped', date: 'Jun 21, 2026', done: true },
-      { status: 'Out for Delivery', date: 'Jul 13, 2026', done: true },
-      { status: 'Delivered', date: '', done: false },
-    ],
-  },
-  {
-    id: 'FOL-100155',
-    date: 'Jun 8, 2026',
-    status: 'Processing',
-    items: [
-      { bookId: pick(9).id, title: pick(9).title, cover: pick(9).cover, price: pick(9).price, quantity: 1 },
-      { bookId: pick(4).id, title: pick(4).title, cover: pick(4).cover, price: pick(4).price, quantity: 1 },
-    ],
-    total: pick(9).price + pick(4).price,
-    address: 'Home — HSR Layout, Bengaluru',
-    timeline: [
-      { status: 'Processing', date: 'Jun 8, 2026', done: true },
-      { status: 'Shipped', date: '', done: false },
-      { status: 'Out for Delivery', date: '', done: false },
-      { status: 'Delivered', date: '', done: false },
     ],
   },
 ]

@@ -196,6 +196,7 @@ export const translations = {
   saveAddress: { en: 'Save Address & Continue', mr: 'पत्ता जतन करा आणि सुरू ठेवा' },
   savingAddress: { en: 'Saving…', mr: 'जतन करत आहे…' },
   loadingAddresses: { en: 'Loading addresses…', mr: 'पत्ते लोड होत आहेत…' },
+  loadingOrders: { en: 'Loading orders…', mr: 'ऑर्डर लोड होत आहेत…' },
   paymentMethod: { en: 'Payment Method', mr: 'पेमेंट पद्धत' },
   razorpayOption: { en: 'Razorpay (Cards, UPI, Wallets)', mr: 'Razorpay (कार्ड, UPI, वॉलेट)' },
   recommended: { en: 'Recommended', mr: 'शिफारस केलेले' },

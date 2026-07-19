@@ -5,7 +5,9 @@ import { CartProvider } from '@/context/CartContext'
 import { WishlistProvider } from '@/context/WishlistContext'
 import { LanguageProvider, useLanguage } from '@/context/LanguageContext'
 import { AuthProvider } from '@/context/AuthContext'
+import { CatalogProvider } from '@/context/CatalogContext'
 import { RequireAuth } from '@/components/auth/RequireAuth'
+import { RequireAdmin } from '@/components/auth/RequireAdmin'
 import { Home } from '@/pages/Home'
 import { Login } from '@/pages/Login'
 import { Shop } from '@/pages/Shop'
@@ -24,6 +26,14 @@ import { RewardsPage } from '@/pages/account/RewardsPage'
 import { InvoicesPage } from '@/pages/account/InvoicesPage'
 import { MyReviewsPage } from '@/pages/account/MyReviewsPage'
 import { NotificationsPage } from '@/pages/account/NotificationsPage'
+import { AdminLayout } from '@/components/admin/AdminLayout'
+import { AdminDashboardPage } from '@/pages/admin/AdminDashboardPage'
+import { AdminBooksPage } from '@/pages/admin/AdminBooksPage'
+import { AdminBookFormPage } from '@/pages/admin/AdminBookFormPage'
+import { AdminCategoriesPage } from '@/pages/admin/AdminCategoriesPage'
+import { AdminAuthorsPage } from '@/pages/admin/AdminAuthorsPage'
+import { AdminOrdersPage } from '@/pages/admin/AdminOrdersPage'
+import { AdminOrderDetailPage } from '@/pages/admin/AdminOrderDetailPage'
 
 function NotFoundPage() {
   const { t } = useLanguage()
@@ -34,6 +44,7 @@ export default function App() {
   return (
     <LanguageProvider>
       <AuthProvider>
+        <CatalogProvider>
         <CartProvider>
           <WishlistProvider>
             <ScrollToTop />
@@ -74,11 +85,30 @@ export default function App() {
                   <Route path="notifications" element={<NotificationsPage />} />
                 </Route>
 
+                <Route
+                  path="/admin"
+                  element={
+                    <RequireAdmin>
+                      <AdminLayout />
+                    </RequireAdmin>
+                  }
+                >
+                  <Route index element={<AdminDashboardPage />} />
+                  <Route path="books" element={<AdminBooksPage />} />
+                  <Route path="books/new" element={<AdminBookFormPage />} />
+                  <Route path="books/:id/edit" element={<AdminBookFormPage />} />
+                  <Route path="categories" element={<AdminCategoriesPage />} />
+                  <Route path="authors" element={<AdminAuthorsPage />} />
+                  <Route path="orders" element={<AdminOrdersPage />} />
+                  <Route path="orders/:id" element={<AdminOrderDetailPage />} />
+                </Route>
+
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </Layout>
           </WishlistProvider>
         </CartProvider>
+        </CatalogProvider>
       </AuthProvider>
     </LanguageProvider>
   )

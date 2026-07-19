@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Heart, ShoppingBag, User, Menu, X, ChevronDown, Moon, Sun, Languages } from 'lucide-react'
-import { categories } from '@/data/categories'
 import { useCart } from '@/context/CartContext'
 import { useWishlist } from '@/context/WishlistContext'
 import { useLanguage } from '@/context/LanguageContext'
 import { useAuth } from '@/context/AuthContext'
+import { useCatalog } from '@/context/CatalogContext'
 import { IconButton } from '@/components/ui/IconButton'
 import { SearchOverlay } from './SearchOverlay'
 
@@ -22,6 +22,7 @@ export function Header() {
   const { count: wishCount } = useWishlist()
   const { lang, setLang, t } = useLanguage()
   const { user } = useAuth()
+  const { categories } = useCatalog()
 
   const navLinks = [
     { label: t('navHome'), to: '/' },

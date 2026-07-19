@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, X } from 'lucide-react'
-import { categories } from '@/data/categories'
-import { authors } from '@/data/authors'
 import { formatPrice } from '@/lib/utils'
 import { useLanguage } from '@/context/LanguageContext'
+import { useCatalog } from '@/context/CatalogContext'
 
 export interface Filters {
   categories: string[]
@@ -74,6 +73,7 @@ function Checkbox({ label, checked, onChange, count }: { label: string; checked:
 
 export function FilterSidebar({ filters, setFilters }: { filters: Filters; setFilters: (f: Filters) => void }) {
   const { t } = useLanguage()
+  const { categories, authors } = useCatalog()
   const toggleArr = (key: 'categories' | 'authors' | 'languages' | 'publishers' | 'formats', value: string) => {
     const arr = filters[key]
     setFilters({

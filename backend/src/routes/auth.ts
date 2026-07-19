@@ -42,9 +42,9 @@ authRouter.post('/signup', asyncHandler(async (req, res) => {
   const tokenId = crypto.randomUUID()
   const sessionExpiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000)
   await pool.query('INSERT INTO sessions (user_id, token_id, expires_at) VALUES (?, ?, ?)', [userId, tokenId, sessionExpiresAt])
-  const token = signAuthToken({ userId, email, tokenId })
+  const token = signAuthToken({ userId, email, tokenId, role: 'customer' })
 
-  res.status(201).json({ token, user: { id: userId, email, name: name ?? null } })
+  res.status(201).json({ token, user: { id: userId, email, name: name ?? null, role: 'customer' } })
 }))
 
 authRouter.post('/login', asyncHandler(async (req, res) => {
@@ -54,7 +54,7 @@ authRouter.post('/login', asyncHandler(async (req, res) => {
   }
   const { email, password } = parsed.data
 
-  const [rows] = await pool.query('SELECT id, email, password_hash, name FROM users WHERE email = ? LIMIT 1', [email])
+  const [rows] = await pool.query('SELECT id, email, password_hash, name, role FROM users WHERE email = ? LIMIT 1', [email])
   const user = (rows as any[])[0]
 
   if (!user) {
@@ -68,19 +68,20 @@ authRouter.post('/login', asyncHandler(async (req, res) => {
 
   await pool.query('UPDATE users SET last_login_at = NOW() WHERE id = ?', [user.id])
 
+  const role = user.role ?? 'customer'
   const tokenId = crypto.randomUUID()
   const sessionExpiresAt = new Date(Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000)
   await pool.query('INSERT INTO sessions (user_id, token_id, expires_at) VALUES (?, ?, ?)', [user.id, tokenId, sessionExpiresAt])
-  const token = signAuthToken({ userId: user.id, email: user.email, tokenId })
+  const token = signAuthToken({ userId: user.id, email: user.email, tokenId, role })
 
-  res.json({ token, user: { id: user.id, email: user.email, name: user.name } })
+  res.json({ token, user: { id: user.id, email: user.email, name: user.name, role } })
 }))
 
 authRouter.get('/me', requireAuth, asyncHandler(async (req, res) => {
-  const [rows] = await pool.query('SELECT id, email, name FROM users WHERE id = ? LIMIT 1', [req.auth!.userId])
+  const [rows] = await pool.query('SELECT id, email, name, role FROM users WHERE id = ? LIMIT 1', [req.auth!.userId])
   const user = (rows as any[])[0]
   if (!user) return res.status(404).json({ error: 'User not found.' })
-  res.json({ user })
+  res.json({ user: { ...user, role: user.role ?? 'customer' } })
 }))
 
 authRouter.post('/logout', requireAuth, asyncHandler(async (req, res) => {
