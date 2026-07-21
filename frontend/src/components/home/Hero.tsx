@@ -1,24 +1,36 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ArrowRight, ShoppingBag, Check } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/Button'
 import { useBook } from '@/hooks/useBook'
-import { fetchCatalogStats } from '@/lib/api'
+import { useCart } from '@/context/CartContext'
 import { useLanguage } from '@/context/LanguageContext'
+import { formatPrice, discountPercent } from '@/lib/utils'
 
 const FEATURED_ID = 'bk-156'
 
 export function Hero() {
   const { t } = useLanguage()
-  const { book: featuredBook } = useBook(FEATURED_ID)
-  const [stats, setStats] = useState({ totalBooks: 0, totalAuthors: 0, totalLanguages: 0 })
+  const navigate = useNavigate()
+  const { book } = useBook(FEATURED_ID)
+  const { addItem } = useCart()
+  const [added, setAdded] = useState(false)
 
-  useEffect(() => {
-    fetchCatalogStats().then(setStats).catch(() => {})
-  }, [])
+  const discount = book ? discountPercent(book.price, book.originalPrice) : 0
 
-  const heroBooks = featuredBook ? [featuredBook, featuredBook, featuredBook] : []
+  const handleAddToCart = () => {
+    if (!book) return
+    addItem(book)
+    setAdded(true)
+    setTimeout(() => setAdded(false), 2000)
+  }
+
+  const handleBuyNow = () => {
+    if (!book) return
+    addItem(book)
+    navigate('/checkout')
+  }
 
   return (
     <section className="relative overflow-hidden bg-gradient-dark pb-24 pt-40 sm:pb-32 sm:pt-48">
@@ -28,11 +40,20 @@ export function Hero() {
 
       <div className="container-app relative grid items-center gap-16 lg:grid-cols-2">
         <div>
+          <motion.span
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-accent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lifted"
+          >
+            {t('heroFeaturedEyebrow')}
+          </motion.span>
+
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-display-lg font-heading font-bold text-white"
+            className="mt-6 text-display-lg font-heading font-bold text-white"
           >
             {t('heroTitleLine1')}
             <br />
@@ -41,80 +62,79 @@ export function Hero() {
             </span>
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="mt-6 max-w-md text-lg text-white/70"
-          >
-            {t('heroSubtitle')}
-          </motion.p>
+          {book && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="mt-6"
+            >
+              <Link to={`/book/${book.id}`} className="inline-block">
+                <h2 className="font-heading text-2xl font-bold text-white hover:text-primary-200 sm:text-3xl">
+                  {book.title}
+                </h2>
+              </Link>
+              <p className="mt-1 text-white/60">{book.author}</p>
+
+              <div className="mt-4 flex items-center gap-3">
+                <span className="font-heading text-3xl font-bold text-white">{formatPrice(book.price)}</span>
+                {book.originalPrice && book.originalPrice > book.price && (
+                  <>
+                    <span className="text-lg text-white/40 line-through">{formatPrice(book.originalPrice)}</span>
+                    <span className="rounded-full bg-gradient-accent px-3 py-1 text-xs font-bold text-white">
+                      {discount}% OFF
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <p className="mt-4 max-w-md text-white/70">{book.description}</p>
+            </motion.div>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-9 flex flex-wrap gap-4"
+            className="mt-8 flex flex-wrap gap-4"
           >
-            <Link to="/shop">
-              <Button size="lg">
-                {t('shopCollection')} <ArrowRight size={18} />
-              </Button>
-            </Link>
-            <Link to="/shop?filter=bestsellers">
-              <Button size="lg" variant="ghost" className="text-white hover:bg-white/10">
-                {t('exploreBestsellers')}
-              </Button>
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-14 flex gap-10"
-          >
-            {[
-              [`${stats.totalBooks}+`, t('statTitles')],
-              [`${stats.totalAuthors}+`, t('statAuthors')],
-              [`${stats.totalLanguages}`, t('statLanguages')],
-            ].map(([stat, label]) => (
-              <div key={label}>
-                <p className="font-heading text-3xl font-bold text-white">{stat}</p>
-                <p className="text-sm text-white/50">{label}</p>
-              </div>
-            ))}
+            <Button size="lg" onClick={handleBuyNow} disabled={!book}>
+              {t('heroBuyNow')} <ArrowRight size={18} />
+            </Button>
+            <Button size="lg" variant="ghost" className="text-white hover:bg-white/10" onClick={handleAddToCart} disabled={!book}>
+              {added ? (
+                <>
+                  <Check size={18} /> {t('heroAddedToCart')}
+                </>
+              ) : (
+                <>
+                  <ShoppingBag size={18} /> {t('heroAddToCart')}
+                </>
+              )}
+            </Button>
           </motion.div>
         </div>
 
         <div className="relative hidden h-[520px] items-center justify-center lg:flex">
-          {heroBooks.map((book, i) => (
+          {book && (
             <motion.div
-              key={`${book.id}-${i}`}
-              initial={{ opacity: 0, y: 60, rotate: -6 + i * 6 }}
-              animate={{ opacity: 1, y: 0, rotate: -6 + i * 6 }}
-              transition={{ duration: 0.8, delay: 0.2 + i * 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute w-56 animate-float"
-              style={{
-                left: `${i * 22}%`,
-                zIndex: i === 1 ? 10 : 5 - i,
-                animationDelay: `${i * 0.8}s`,
-              }}
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-80 animate-float"
             >
-              {book.id === FEATURED_ID && (
-                <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-lifted">
-                  {t('mostSelling')}
-                </span>
-              )}
+              <span className="absolute -top-4 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lifted">
+                {t('mostSelling')}
+              </span>
               <Link to={`/book/${book.id}`}>
                 <img
                   src={book.cover}
                   alt={book.title}
-                  className="w-full rounded-xl shadow-lifted ring-1 ring-white/10"
+                  className="w-full rounded-2xl shadow-lifted ring-1 ring-white/10"
                 />
               </Link>
             </motion.div>
-          ))}
+          )}
         </div>
       </div>
     </section>

@@ -52,6 +52,10 @@ export const translations = {
   statAuthors: { en: 'Authors', mr: 'लेखक' },
   statLanguages: { en: 'Languages', mr: 'भाषा' },
   mostSelling: { en: 'Most Selling', mr: 'सर्वाधिक विक्री' },
+  heroFeaturedEyebrow: { en: "Today's Most Selling Book", mr: 'आजचे सर्वाधिक विकले जाणारे पुस्तक' },
+  heroAddToCart: { en: 'Add to Cart', mr: 'कार्टमध्ये टाका' },
+  heroBuyNow: { en: 'Buy Now', mr: 'आता खरेदी करा' },
+  heroAddedToCart: { en: 'Added to Cart', mr: 'कार्टमध्ये टाकले' },
 
   // Brand partners
   trustedBy: { en: 'Trusted by leading publishers worldwide', mr: 'आघाडीच्या प्रकाशकांचा विश्वास' },
