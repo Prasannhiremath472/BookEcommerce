@@ -7,6 +7,7 @@ export const catalogRouter = Router()
 
 const DEFAULT_PAGE_SIZE = 24
 const MAX_PAGE_SIZE = 60
+const FEATURED_ID = 'bk-156'
 
 const listBooksSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
@@ -103,11 +104,15 @@ catalogRouter.get('/books', asyncHandler(async (req, res) => {
 
   const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : ''
 
+  // Pin the currently-promoted book first whenever the default/relevance sort
+  // is in effect, so it always leads every rail it qualifies for instead of
+  // only appearing if it happens to land within the page's row limit.
+  const featuredFirst = `(b.id = ${pool.escape(FEATURED_ID)}) DESC`
   const orderBy =
     sort === 'price-asc' ? 'b.price ASC' :
     sort === 'price-desc' ? 'b.price DESC' :
-    sort === 'newest' ? 'b.published_year DESC, b.created_at DESC' :
-    'b.is_bestseller DESC, b.created_at DESC'
+    sort === 'newest' ? `${featuredFirst}, b.published_year DESC, b.created_at DESC` :
+    `${featuredFirst}, b.is_bestseller DESC, b.created_at DESC`
 
   const [countRows] = await pool.query(`SELECT COUNT(*) AS total FROM books b ${whereClause}`, params)
   const total = (countRows as any[])[0].total as number

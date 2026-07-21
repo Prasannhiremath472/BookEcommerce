@@ -34,19 +34,48 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-dark pb-24 pt-40 sm:pb-32 sm:pt-48">
+      {book && (
+        <div
+          className="pointer-events-none absolute inset-0 scale-110 bg-cover bg-center opacity-40 blur-md"
+          style={{ backgroundImage: `url(${book.cover})` }}
+        />
+      )}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/60 to-ink/90" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-radial-soft" />
       <div className="pointer-events-none absolute -left-40 top-20 h-96 w-96 rounded-full bg-primary/30 blur-[100px]" />
       <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-secondary/30 blur-[100px]" />
 
       <div className="container-app relative grid items-center gap-16 lg:grid-cols-2">
-        <div>
+        <div className="text-center lg:text-left">
+          {book && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="mb-6 flex justify-center lg:hidden"
+            >
+              <Link to={`/book/${book.id}`} className="relative w-48">
+                <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-gradient-accent px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow-lifted">
+                  {t('mostSelling')}
+                </span>
+                <img
+                  src={book.cover}
+                  alt={book.title}
+                  className="w-full rounded-xl shadow-lifted ring-1 ring-white/10"
+                />
+              </Link>
+            </motion.div>
+          )}
+
           <motion.span
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 rounded-full bg-gradient-accent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lifted"
+            className="flex justify-center lg:justify-start"
           >
-            {t('heroFeaturedEyebrow')}
+            <span className="inline-flex items-center gap-2 rounded-full bg-gradient-accent px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-white shadow-lifted">
+              {t('heroFeaturedEyebrow')}
+            </span>
           </motion.span>
 
           <motion.h1
@@ -76,7 +105,7 @@ export function Hero() {
               </Link>
               <p className="mt-1 text-white/60">{book.author}</p>
 
-              <div className="mt-4 flex items-center gap-3">
+              <div className="mt-4 flex items-center justify-center gap-3 lg:justify-start">
                 <span className="font-heading text-3xl font-bold text-white">{formatPrice(book.price)}</span>
                 {book.originalPrice && book.originalPrice > book.price && (
                   <>
@@ -88,7 +117,7 @@ export function Hero() {
                 )}
               </div>
 
-              <p className="mt-4 max-w-md text-white/70">{book.description}</p>
+              <p className="mx-auto mt-4 max-w-md text-white/70 lg:mx-0">{book.description}</p>
             </motion.div>
           )}
 
@@ -96,7 +125,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-8 flex flex-wrap gap-4"
+            className="mt-8 flex flex-wrap justify-center gap-4 lg:justify-start"
           >
             <Button size="lg" onClick={handleBuyNow} disabled={!book}>
               {t('heroBuyNow')} <ArrowRight size={18} />
